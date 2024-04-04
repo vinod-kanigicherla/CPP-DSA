@@ -8,7 +8,7 @@ using namespace std;
 int main(int argc, char** argv) {
 
 	if (argc != 2) {
-		cout << "USAGE: censor [length]";
+		cout << "USAGE: censor [length]\n";
 		return 1;
 	}
 
