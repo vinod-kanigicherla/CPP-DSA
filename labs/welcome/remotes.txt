@@ -1,0 +1,4 @@
+origin	git@github.com:vinod-kanigicherla/Welcome.git (fetch)
+origin	git@github.com:vinod-kanigicherla/Welcome.git (push)
+upstream	https://github.com/ucsb-cs24/s24 (fetch)
+upstream	https://github.com/ucsb-cs24/s24 (push)
