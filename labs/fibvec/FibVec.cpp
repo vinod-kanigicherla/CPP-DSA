@@ -27,7 +27,7 @@ size_t FibVec::capacity() const {
 
 void FibVec::insert(int val, size_t index) {
     if (index > fCount) {
-        throw std::out_of_range("Index out of range");
+        throw std::out_of_range("Out of range");
     }
     if (fCount == fCapacity) {
         resizeUp();
@@ -40,7 +40,7 @@ void FibVec::insert(int val, size_t index) {
 
 int FibVec::lookup(size_t index) const {
     if (index >= fCount) {
-        throw std::out_of_range("Index out of range");
+        throw std::out_of_range("Out of range");
     }
     return fib_vector[index];
 }
@@ -54,7 +54,7 @@ void FibVec::push(int val) {
 
 int FibVec::pop() {
     if (fCount == 0) {
-        throw std::underflow_error("Vector is empty");
+        throw std::underflow_error("Empty vector");
     }
     int result = fib_vector[--fCount];
     if (fCount < fPrevPrevCapacity) {
@@ -65,7 +65,7 @@ int FibVec::pop() {
 
 int FibVec::remove(size_t index) {
     if (index >= fCount) {
-        throw std::out_of_range("Index out of range");
+        throw std::out_of_range("Out of range");
     }
     int removedValue = fib_vector[index];
     std::copy(fib_vector + index + 1, fib_vector + fCount, fib_vector + index);
@@ -97,5 +97,6 @@ void FibVec::resizeDown() {
 
     fCapacity = fPrevCapacity;
     fPrevCapacity = fPrevPrevCapacity;
-    fPrevPrevCapacity = fCapacity - fPrevCapacity; }
+    fPrevPrevCapacity = fCapacity - fPrevCapacity; 
+}
 
