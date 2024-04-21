@@ -1,19 +1,20 @@
 #include "Move.h"
-#include <iostream>
 #include <cctype>
 #include <string>
 #include <vector>
+#include <cstdlib> 
 #include "Errors.h"
-#include <cstdlib> // For atoi and c_str
-
 using namespace std;
 
-// Implementing the constructor to parse input string into move components.
 Move::Move(const string& input) {
     vector<string> move_tokens;
     string curr_word;
 
     for (char c : input) {
+        if (c == '#') {
+            break;
+        }
+    
         if (isspace(c)) {
             if (!curr_word.empty()) {
                 move_tokens.push_back(curr_word);
@@ -23,9 +24,11 @@ Move::Move(const string& input) {
             curr_word += c;
         }
     }
+
     if (!curr_word.empty()) {
         move_tokens.push_back(curr_word);
     }
+
 
     this->number = atoi(move_tokens[0].c_str());
     this->player = toupper(move_tokens[1][0]);
@@ -33,10 +36,10 @@ Move::Move(const string& input) {
     this->column = move_tokens[2][1] - '0';
 
     if (this->number < 1 || this->number > 9) {
-        throw ParseError("Move number must be between 1 and 9.");
+        throw ParseError("Move number should be between 1 and 9");
     }
     if (this->player != 'X' && this->player != 'O') {
-         throw ParseError("Player must be 'X' or 'O'.");
+        throw ParseError("Player must be X or O");
     }
     if (this->row < 1 || this->row > 3 || this->column < 1 || this->column > 3) {
         throw ParseError("Row or column out of valid range.");

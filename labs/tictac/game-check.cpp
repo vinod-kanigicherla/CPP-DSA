@@ -2,7 +2,6 @@
 #include "Errors.h"
 #include "Move.h"
 #include <iostream>
-#include <sstream>
 
 using namespace std;
 int main() {
@@ -12,26 +11,17 @@ int main() {
 
     try {
         while (getline(cin, line)) {
-            Move move(line);
-            istringstream iss(line);
-            int num;
-            char player;
-            char rowChar;
-            int col;
-            if (!(iss >> num >> player >> rowChar >> col) || num != move_number) {
-                throw ParseError("Parse error.");
-            }
-            
-            if (num != move_number || (player != 'X' && player != 'O')) {
-                throw ParseError("Parse error."); 
-            }
+            Move move(line);  
 
+            int row = move.row - 1;
+            int col = move.column - 1;
+            char player = move.player;
 
-            int row = rowChar - 'A';
-            col -= 1; 
-
-            if (!board.put(row, col, player)) {
-                throw ParseError("Parse error."); 
+            try {
+                board.put(row, col, player);
+            } catch (const ParseError& e) {
+                cout << "Invalid move." << endl;
+                return 2;
             }
 
             string turn_result = board.checkWin();
@@ -43,9 +33,9 @@ int main() {
             move_number++;
         }
         cout << board.getStatus() << '\n';
-        return 0;
     } catch (const ParseError& e) {
         cout << "Parse error." << '\n';
         return 1;
     }
+    return 0;
 }
