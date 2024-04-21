@@ -17,10 +17,15 @@ int main() {
             int col = move.column - 1;
             char player = move.player;
 
+            if (move.number != move_number) {
+                cout << "Invalid move.\n"; 
+                return 2;
+            }
+
             try {
                 board.put(row, col, player);
             } catch (const ParseError& e) {
-                cout << "Invalid move." << endl;
+                cout << "Invalid move." << '\n';
                 return 2;
             }
 

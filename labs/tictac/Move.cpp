@@ -2,7 +2,7 @@
 #include <cctype>
 #include <string>
 #include <vector>
-#include <cstdlib> 
+#include <cstdlib>
 #include "Errors.h"
 using namespace std;
 
@@ -29,6 +29,7 @@ Move::Move(const string& input) {
         move_tokens.push_back(curr_word);
     }
 
+    if (move_tokens.size() < 3) throw ParseError("Incomplete move information.");
 
     this->number = atoi(move_tokens[0].c_str());
     this->player = toupper(move_tokens[1][0]);

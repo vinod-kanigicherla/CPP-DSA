@@ -3,7 +3,6 @@
 
 // Space for implementing Board functions.
 
-#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -12,6 +11,7 @@ Board::Board() {
   this->grid = vector< vector<char> >(3, vector<char>(3, '.'));
   this->move_num = 0;
   this->prev_player = ' ';
+  this->game_over = false;  
 }
 
 bool Board::isValid(int row, int col) const {
@@ -19,6 +19,9 @@ bool Board::isValid(int row, int col) const {
 }
 
 bool Board::put(int row, int col, char player) {
+    if (game_over) {
+        throw ParseError("No further moves. Game over.");
+    }
     if (prev_player == player) {
         throw ParseError("Players need to alternate turns");
     }
@@ -29,6 +32,12 @@ bool Board::put(int row, int col, char player) {
     prev_player = player;
     move_num++;
     return true;
+}
+
+void Board::setGameOver() {
+    if (!checkWin().empty() || move_num == 9) {
+        game_over = true;
+    }
 }
 
 string Board::checkWin() const {
@@ -61,7 +70,6 @@ string Board::getStatus() const {
     // if (move_num == 9) {
     //     throw ParseError("Game over: Draw. No further moves allowed");
     // }
-
     if (move_num == 0) return "Game in progress: New game.";
     char next_player = (prev_player == 'X' ? 'O' : 'X');
     return "Game in progress: " + string(1, next_player) + "'s turn.";

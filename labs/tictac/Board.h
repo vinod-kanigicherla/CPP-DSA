@@ -17,7 +17,7 @@ private:
     vector< vector<char> > grid;
     int move_num;
     char prev_player;
-
+    bool game_over;
 public:
     Board();
 
@@ -25,6 +25,7 @@ public:
     bool put(int row, int col, char player);
     string checkWin() const;
     string getStatus() const;
+    void setGameOver();
 };
 
 #endif // BOARD_H
