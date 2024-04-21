@@ -14,7 +14,7 @@ using namespace std;
 class Board {
 
 private:
-    vector<vector<char>> grid;
+    vector< vector<char> > grid;
     int move_num;
     char prev_player;
 

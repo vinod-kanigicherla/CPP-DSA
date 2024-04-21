@@ -9,7 +9,7 @@ using namespace std;
 
 
 Board::Board() {
-  this->grid = vector<vector<char>>(3, vector<char>(3, '.'));
+  this->grid = vector< vector<char> >(3, vector<char>(3, '.'));
   this->move_num = 0;
   this->prev_player = ' ';
 }
@@ -19,13 +19,16 @@ bool Board::isValid(int row, int col) const {
 }
 
 bool Board::put(int row, int col, char player) {
-    if (isValid(row, col)) {
-        grid[row][col] = player;
-        prev_player = player;
-        move_num++;
-        return true;
+    if (prev_player == player) {
+        throw ParseError("Players need to alternate turns");
     }
-    return false;
+    if (!isValid(row, col)) {
+        throw ParseError("Spot already taken or out of bounds");
+    }
+    grid[row][col] = player;
+    prev_player = player;
+    move_num++;
+    return true;
 }
 
 string Board::checkWin() const {
@@ -41,7 +44,6 @@ string Board::checkWin() const {
     if (grid[0][0] != '.' && grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2]) {
         return "Game over: " + string(1, grid[0][0]) + " wins.";
     }
-
     if (grid[0][2] != '.' && grid[0][2] == grid[1][1] && grid[1][1] == grid[2][0]) {
         return "Game over: " + string(1, grid[0][2]) + " wins.";
     }
@@ -53,6 +55,13 @@ string Board::checkWin() const {
     return "";
 }
 string Board::getStatus() const {
+    // if (checkWin() == "") {
+    //     throw ParseError("Game Over");
+    // }
+    // if (move_num == 9) {
+    //     throw ParseError("Game over: Draw. No further moves allowed");
+    // }
+
     if (move_num == 0) return "Game in progress: New game.";
     char next_player = (prev_player == 'X' ? 'O' : 'X');
     return "Game in progress: " + string(1, next_player) + "'s turn.";

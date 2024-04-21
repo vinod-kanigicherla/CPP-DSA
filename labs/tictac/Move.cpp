@@ -3,6 +3,7 @@
 #include <cctype>
 #include <string>
 #include <vector>
+#include "Errors.h"
 #include <cstdlib> // For atoi and c_str
 
 using namespace std;
@@ -30,6 +31,16 @@ Move::Move(const string& input) {
     this->player = toupper(move_tokens[1][0]);
     this->row = toupper(move_tokens[2][0]) - 'A' + 1;
     this->column = move_tokens[2][1] - '0';
+
+    if (this->number < 1 || this->number > 9) {
+        throw ParseError("Move number must be between 1 and 9.");
+    }
+    if (this->player != 'X' && this->player != 'O') {
+         throw ParseError("Player must be 'X' or 'O'.");
+    }
+    if (this->row < 1 || this->row > 3 || this->column < 1 || this->column > 3) {
+        throw ParseError("Row or column out of valid range.");
+    }
 }
 
 string Move::to_string() const {
