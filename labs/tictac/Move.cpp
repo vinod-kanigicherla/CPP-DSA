@@ -57,14 +57,10 @@ Move::Move(const string& input) {
         throw ParseError("Move number should be between 1 and 9.");
     }
 
-    this->number = atoi(move_tokens[0].c_str());
     this->player = toupper(move_tokens[1][0]);
     this->row = toupper(move_tokens[2][0]) - 'A' + 1;
     this->column = move_tokens[2][1] - '0';
 
-    if (this->number < 1 || this->number > 9) {
-        throw ParseError("Move number should be between 1 and 9");
-    }
     if (this->player != 'X' && this->player != 'O') {
         throw ParseError("Player must be X or O");
     }
