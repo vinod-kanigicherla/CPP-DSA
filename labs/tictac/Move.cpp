@@ -12,7 +12,7 @@ Move::Move(const string& input) {
 
     size_t comment_index = input.find('#');
     if (comment_index != string::npos) {
-        if (comment_index > 0 && input[comment_index - 1] != ' ') {
+        if (comment_index > 0 && (!isspace(input[comment_index - 1]))) {
             throw ParseError("Comment must be preceded by whitespace");
         }
     }
