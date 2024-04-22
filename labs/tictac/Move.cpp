@@ -17,6 +17,9 @@ Move::Move(const string& input) {
         }
     }
 
+    if (!input.empty() && isspace(input.front()) && (comment_index == string::npos || comment_index > 0)) {
+        throw ParseError("Leading whitespace not allowed.");
+    }
 
     for (char c : input) {
         if (c == '#') {
@@ -37,7 +40,7 @@ Move::Move(const string& input) {
         move_tokens.push_back(curr_word);
     }
 
-    if (move_tokens.size() < 3) throw ParseError("Incomplete move information.");
+    if (move_tokens.size() != 3) throw ParseError("Incomplete move information.");
 
     string moveNumberStr = move_tokens[0];
     if (moveNumberStr.length() != 1 || !isdigit(moveNumberStr[0])) {

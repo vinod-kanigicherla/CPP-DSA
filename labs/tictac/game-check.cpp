@@ -16,19 +16,19 @@ int main() {
             Move move(line);
 
             if (move.number != move_number) {
-                cout << "Invalid move sequence.\n";
+                cout << "Invalid move.\n";
                 return 2;
             }
 
             if (board.isGameOver()) {
-                cout << "Invalid move. Game over.\n";
+                cout << "Invalid move.\n";
                 return 2; 
             }
 
             try {
                 board.put(move.row - 1, move.column - 1, move.player);
             } catch (const ParseError& e) {
-                cout << "Invalid move: " << e.what() << '\n';
+                cout << "Invalid move.\n";
                 return 2;
             }
 
@@ -46,8 +46,8 @@ int main() {
             cout << board.getStatus() << '\n';
         }
     } catch (const ParseError& e) {
-        cout << "Parse error: " << e.what() << '\n';
+        cout << "Parse error." << '\n';
         return 1; 
     }
     return 0;
-}
+} 
