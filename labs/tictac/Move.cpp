@@ -10,20 +10,15 @@ Move::Move(const string& input) {
     vector<string> move_tokens;
     string curr_word;
 
-   size_t comment_index = input.find('#');
-
+    size_t comment_index = input.find('#');
     if (comment_index != string::npos) {
         if (comment_index > 0 && input[comment_index - 1] != ' ') {
             throw ParseError("Comment must be preceded by whitespace");
         }
+    }
 
-        if (!input.empty() && isspace(input.front())) {
-            throw ParseError("Leading whitespace not allowed.");
-        }
-    } else {
-        if (!input.empty() && (isspace(input.front()) || isspace(input.back()))) {
-            throw ParseError("Leading or trailing whitespace not allowed.");
-        }
+    if (!input.empty() && isspace(input.front()) && (comment_index == string::npos || comment_index > 0)) {
+        throw ParseError("Leading whitespace not allowed.");
     }
 
     for (char c : input) {
@@ -48,11 +43,11 @@ Move::Move(const string& input) {
     if (move_tokens.size() < 3) throw ParseError("Incomplete move information.");
 
     string moveNumberStr = move_tokens[0];
-    if (moveNumberStr.length() != 1 || !isdigit(moveNumberStr[0]) || moveNumberStr[0] == '0') {
+    if (moveNumberStr.length() != 1 || !isdigit(moveNumberStr[0])) {
         throw ParseError("Invalid number.");
     }
 
-    this->number = moveNumberStr[0] - '0';  
+    this->number = moveNumberStr[0] - '0';
     if (this->number < 1 || this->number > 9) {
         throw ParseError("Move number should be between 1 and 9.");
     }

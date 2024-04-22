@@ -23,9 +23,11 @@ public:
 
     bool isValid(int row, int col) const;
     bool put(int row, int col, char player);
+    bool isGameOver() const;
     string checkWin() const;
     string getStatus() const;
     void setGameOver();
+
 };
 
 #endif // BOARD_H

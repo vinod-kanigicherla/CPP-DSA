@@ -3,44 +3,52 @@
 #include "Move.h"
 #include <iostream>
 
-using namespace std;
 int main() {
     Board board;
     string line;
     int move_number = 1;
 
     try {
+        string turn_result;
         while (getline(cin, line)) {
-            Move move(line);  
+            Move move(line);
 
-            int row = move.row - 1;
-            int col = move.column - 1;
-            char player = move.player;
+            if (board.isGameOver()) {
+                cout << "Invalid move. Game over.\n";
+                return 2; 
+            }
 
             if (move.number != move_number) {
-                cout << "Invalid move.\n"; 
+                cout << "Invalid move sequence.\n";
                 return 2;
             }
 
             try {
-                board.put(row, col, player);
+                board.put(move.row - 1, move.column - 1, move.player);
             } catch (const ParseError& e) {
-                cout << "Invalid move." << '\n';
+                cout << "Invalid move: " << e.what() << '\n';
                 return 2;
             }
 
-            string turn_result = board.checkWin();
-            if (!turn_result.empty()) {
-                cout << turn_result << '\n';
-                return 0;
-            }
+            turn_result = board.checkWin();
+            // if (!turn_result.empty()) {
+            //     cout << turn_result << '\n';
+            //     board.setGameOver();
+            // }
 
             move_number++;
         }
-        cout << board.getStatus() << '\n';
+
+        if (!turn_result.empty()) {
+            cout << turn_result << '\n';
+            board.setGameOver();
+        } else {
+            cout << board.getStatus() << '\n';
+
+        }
     } catch (const ParseError& e) {
-        cout << "Parse error." << '\n';
+        cout << "Parse error: " << e.what() << '\n';
         return 1;
     }
-    return 0;
+    return 0;  
 }

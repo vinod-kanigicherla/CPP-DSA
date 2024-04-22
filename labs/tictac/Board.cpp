@@ -41,6 +41,10 @@ void Board::setGameOver() {
     }
 }
 
+bool Board::isGameOver() const {
+    return game_over;
+}
+
 string Board::checkWin() const {
     for (int i = 0; i < 3; i++) {
         if (grid[i][0] != '.' && grid[i][0] == grid[i][1] && grid[i][1] == grid[i][2]) {
