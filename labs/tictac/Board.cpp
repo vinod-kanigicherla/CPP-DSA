@@ -15,7 +15,7 @@ Board::Board() {
 }
 
 bool Board::isValid(int row, int col) const {
-    return (row >= 0 && row < 3) && (col >= 0 && col < 3) && grid[row][col] == '.';
+    return !game_over && (row >= 0 && row < 3) && (col >= 0 && col < 3) && grid[row][col] == '.';
 }
 
 bool Board::put(int row, int col, char player) {
@@ -31,6 +31,7 @@ bool Board::put(int row, int col, char player) {
     grid[row][col] = player;
     prev_player = player;
     move_num++;
+    setGameOver();
     return true;
 }
 
@@ -70,8 +71,15 @@ string Board::getStatus() const {
     // if (move_num == 9) {
     //     throw ParseError("Game over: Draw. No further moves allowed");
     // }
+    
+    if (game_over) {
+        string result = checkWin();
+        if (!result.empty()) {
+            return result;  
+        }
+        return "Game over: Draw."; 
+    }
 
-    if (game_over) throw ParseError("Game over");
     if (move_num == 0) return "Game in progress: New game.";
     char next_player = (prev_player == 'X' ? 'O' : 'X');
     return "Game in progress: " + string(1, next_player) + "'s turn.";
