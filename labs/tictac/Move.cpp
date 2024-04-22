@@ -10,6 +10,11 @@ Move::Move(const string& input) {
     vector<string> move_tokens;
     string curr_word;
 
+    size_t comment_index = input.find('#');
+    if (comment_index != string::npos && input[comment_index - 1] != ' ') {
+        throw ParseError("Comment must precede whitespace");
+    };
+
     for (char c : input) {
         if (c == '#') {
             break;
