@@ -39,6 +39,16 @@ Move::Move(const string& input) {
 
     if (move_tokens.size() < 3) throw ParseError("Incomplete move information.");
 
+    string moveNumberStr = move_tokens[0];
+    if (moveNumberStr.length() != 1 || !isdigit(moveNumberStr[0]) || moveNumberStr[0] == '0') {
+        throw ParseError("Invalid number.");
+    }
+
+    this->number = moveNumberStr[0] - '0';  
+    if (this->number < 1 || this->number > 9) {
+        throw ParseError("Move number should be between 1 and 9.");
+    }
+
     this->number = atoi(move_tokens[0].c_str());
     this->player = toupper(move_tokens[1][0]);
     this->row = toupper(move_tokens[2][0]) - 'A' + 1;
