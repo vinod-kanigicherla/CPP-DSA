@@ -14,7 +14,7 @@ Move::Move(const string& input) {
     if (comment_index != string::npos && input[comment_index - 1] != ' ') {
         throw ParseError("Comment must precede whitespace");
     }
-    if (isspace(static_cast<char>(input.front())) || isspace(static_cast<char>(input.back()))) {
+    if (isspace(static_cast<char>(input.front()))) { 
         throw ParseError("Leading/trailing whitespace");
     }
 

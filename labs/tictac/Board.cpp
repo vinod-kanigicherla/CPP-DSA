@@ -70,6 +70,8 @@ string Board::getStatus() const {
     // if (move_num == 9) {
     //     throw ParseError("Game over: Draw. No further moves allowed");
     // }
+
+    if (game_over) throw ParseError("Game over");
     if (move_num == 0) return "Game in progress: New game.";
     char next_player = (prev_player == 'X' ? 'O' : 'X');
     return "Game in progress: " + string(1, next_player) + "'s turn.";
