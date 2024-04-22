@@ -17,9 +17,6 @@ Move::Move(const string& input) {
         }
     }
 
-    if (!input.empty() && isspace(input.front()) && (comment_index == string::npos || comment_index > 0)) {
-        throw ParseError("Leading whitespace not allowed.");
-    }
 
     for (char c : input) {
         if (c == '#') {
