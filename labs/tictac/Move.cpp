@@ -10,14 +10,22 @@ Move::Move(const string& input) {
     vector<string> move_tokens;
     string curr_word;
 
-    size_t comment_index = input.find('#');
-    if (comment_index != string::npos && input[comment_index - 1] != ' ') {
-        throw ParseError("Comment must precede whitespace");
+   size_t comment_index = input.find('#');
+
+    if (comment_index != string::npos) {
+        if (comment_index > 0 && input[comment_index - 1] != ' ') {
+            throw ParseError("Comment must be preceded by whitespace");
+        }
+
+        if (!input.empty() && isspace(input.front())) {
+            throw ParseError("Leading whitespace not allowed.");
+        }
+    } else {
+        if (!input.empty() && (isspace(input.front()) || isspace(input.back()))) {
+            throw ParseError("Leading or trailing whitespace not allowed.");
+        }
     }
-    // if (isspace(static_cast<char>(input.front()))) { 
-    //     throw ParseError("Leading/trailing whitespace");
-    // }
-    //
+
     for (char c : input) {
         if (c == '#') {
             break;

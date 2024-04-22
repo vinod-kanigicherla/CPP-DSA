@@ -72,13 +72,13 @@ string Board::getStatus() const {
     //     throw ParseError("Game over: Draw. No further moves allowed");
     // }
     
-    if (game_over) {
-        string result = checkWin();
-        if (!result.empty()) {
-            return result;  
-        }
-        return "Game over: Draw."; 
-    }
+    // if (game_over) {
+    //     string result = checkWin();
+    //     if (!result.empty()) {
+    //         return result;  
+    //     }
+    //     return "Game over: Draw."; 
+    // }
 
     if (move_num == 0) return "Game in progress: New game.";
     char next_player = (prev_player == 'X' ? 'O' : 'X');
