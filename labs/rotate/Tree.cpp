@@ -82,7 +82,8 @@ void Tree::insertHelper(Node*& node, const std::string& s, Node* parent) {
     if (!node) {
         node = new Node(s);
         node->parent = parent; 
-    } else if (s < node->value) {
+    } else if (s <= node->value) {
+
         insertHelper(node->left, s, node); 
     } else {
         insertHelper(node->right, s, node);
