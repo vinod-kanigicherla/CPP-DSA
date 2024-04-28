@@ -150,7 +150,6 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex) {
         throw std::out_of_range("Index out of range");
     }
 
-    Node* toDelete = nullptr;
     size_t leftWeight = node->left ? node->left->weight : 0;
     size_t nodeIndex = currIndex + leftWeight;
 
