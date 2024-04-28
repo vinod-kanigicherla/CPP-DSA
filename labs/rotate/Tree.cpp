@@ -172,7 +172,7 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex) {
 
     if (node) {
         updateWeights(node); 
-        rotate(node);       
+        rotate(node);     
     }
     return node;
 }
@@ -180,51 +180,70 @@ void Tree::remove(size_t index) {
   removeHelper(root, index, 0);
 }
 
-
-
-
 void Tree::rotate(Node*& node) {
     if (node == nullptr) return;
 
-    updateWeights(node);  
+    updateWeights(node); 
     int leftWeight = node->left ? node->left->weight : 0;
     int rightWeight = node->right ? node->right->weight : 0;
-    int balance = leftWeight - rightWeight;
+    int currentImbalance = std::abs(leftWeight - rightWeight);
 
-    if (balance > 1) {
+    if (currentImbalance <= 1) return; 
+
+    if (leftWeight > rightWeight) {
         if (node->left && node->left->right &&
-            node->left->right->weight > (node->left->left ? node->left->left->weight : 0)) {
-            leftRotate(node->left);
+            (node->left->right->weight > node->left->left->weight)) {
+            int newImbalance = std::abs(static_cast<int>(node->left->weight - (node->left->left ? node->left->left->weight : 0)));
+            if (newImbalance < currentImbalance) {
+                leftRotate(node->left);
+            }
         }
-        rightRotate(node);
-    } else if (balance < -1) {
+        int predictedImbalance = std::abs(static_cast<int>((node->left ? node->left->weight : 0) - node->weight));
+        if (predictedImbalance < currentImbalance) {
+            rightRotate(node);
+        }
+    } else {
         if (node->right && node->right->left &&
-            node->right->left->weight > (node->right->right ? node->right->right->weight : 0)) {
-            rightRotate(node->right);
+            (node->right->left->weight > node->right->right->weight)) {
+            int newImbalance = std::abs(static_cast<int>(node->right->weight - (node->right->right ? node->right->right->weight : 0)));
+            if (newImbalance < currentImbalance) {
+                rightRotate(node->right);
+            }
         }
-        leftRotate(node);
+        int predictedImbalance = std::abs(static_cast<int>(node->weight - (node->right ? node->right->weight : 0)));
+        if (predictedImbalance < currentImbalance) {
+            leftRotate(node);
+        }
     }
 }
 
+
 void Tree::rightRotate(Node*& root) {
-    Node* newRoot = root->left;
-    root->left = newRoot->right;
-    newRoot->right = root;
-    root = newRoot;
+    Node* leftChild = root->left;
+    if (!leftChild) return;
+
+    root->left = leftChild->right;
+    leftChild->right = root;
+    root = leftChild;
 
     updateWeights(root->right);
-    updateWeights(root);
+    updateWeights(root);     
 }
+
+
 
 void Tree::leftRotate(Node*& root) {
-    Node* newRoot = root->right;
-    root->right = newRoot->left;
-    newRoot->left = root;
-    root = newRoot;
+    Node* rightChild = root->right;
+    if (!rightChild) return;
 
-    updateWeights(root->left);
-    updateWeights(root);
+    root->right = rightChild->left;
+    rightChild->left = root;
+    root = rightChild; 
+
+    updateWeights(root->left); 
+    updateWeights(root);     
 }
+
 
 void Tree::updateWeights(Node* node) {
     if (node) {
@@ -233,3 +252,4 @@ void Tree::updateWeights(Node* node) {
         node->weight = leftWeight + rightWeight + 1; 
     }
 }
+

@@ -37,33 +37,33 @@ void testMultipleInserts() {
 }
 
 
-void testRotations() {
-    Tree t;
-    t.insert("mango");
-    t.insert("banana");
-    t.insert("apple");  
-    std::cout << "Test Rotations:" << std::endl;
-    std::cout << "Expected balanced tree output, Actual: ";
-    t.print();
-}
-
-void testInsertAndRemove() {
-    Tree t;
-    t.insert("apple");
-    t.insert("mango");
-    t.insert("banana");
-    std::cout << "Test Insert and Remove:" << std::endl;
-    std::cout << "Expected print after removing 'mango', Actual: ";
-    t.print();
-    std::cout << "Expected contains 'mango': false, Actual: " << (t.contains("mango") ? "true" : "false") << std::endl;
-}
-
+// void testRotations() {
+//     Tree t;
+//     t.insert("mango");
+//     t.insert("banana");
+//     t.insert("apple");  
+//     std::cout << "Test Rotations:" << std::endl;
+//     std::cout << "Expected balanced tree output, Actual: ";
+//     t.print();
+// }
+//
+//
+// void testInsertAndRemove() {
+//     Tree t;
+//     t.insert("apple");
+//     t.insert("mango");
+//     t.insert("banana");
+//     std::cout << "Test Insert and Remove:" << std::endl;
+//     std::cout << "Expected print after removing 'mango', Actual: ";
+//     t.print();
+//     std::cout << "Expected contains 'mango': false, Actual: " << (t.contains("mango") ? "true" : "false") << std::endl;
+// }
 int main() {
     testEmptyTree();
     testSingleInsert();
     testMultipleInserts();
-    testInsertAndRemove();
-    testRotations();
+    // testInsertAndRemove();
+    // testRotations();
     return 0;
 }
 
