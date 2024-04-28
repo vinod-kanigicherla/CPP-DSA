@@ -87,6 +87,7 @@ void Tree::insertHelper(Node*& node, const std::string& s, Node* parent) {
     } else {
         insertHelper(node->right, s, node);
     }
+    updateWeights(node);
     rotate(node);
 }
 
@@ -180,7 +181,6 @@ void Tree::remove(size_t index) {
 void Tree::rotate(Node*& node) {
     if (node == nullptr) return;
 
-    updateWeights(node);
     int leftWeight = node->left ? node->left->weight : 0;
     int rightWeight = node->right ? node->right->weight : 0;
     int currentImbalance = std::abs(leftWeight - rightWeight);
