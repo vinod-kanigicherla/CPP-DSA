@@ -83,13 +83,12 @@ void Tree::insertHelper(Node*& node, const std::string& s, Node* parent) {
         node = new Node(s);
         node->parent = parent; 
     } else if (s <= node->value) {
-
         insertHelper(node->left, s, node); 
     } else {
         insertHelper(node->right, s, node);
     }
     updateWeights(node);
-    /* rotate(node); */
+    rotate(node);
 }
 
 void Tree::insert(const std::string& s){
@@ -170,7 +169,7 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex) {
 
     if (node) {
         updateWeights(node); 
-       /*  rotate(node);      */
+        rotate(node);    
     }
     return node;
 }
