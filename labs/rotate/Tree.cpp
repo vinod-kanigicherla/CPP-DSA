@@ -30,6 +30,10 @@ void Tree::clear() {
 }
 
 size_t Tree::count() const{
+  if (root == nullptr) {
+    return 0;
+  }
+
   return root->weight;
 }
 
@@ -95,22 +99,20 @@ void Tree::insert(const std::string& s){
   insertHelper(root, s);
 }
 
-std::string Tree::printHelper(const Node* node) const {
-  if (node == nullptr) {
-    return "-";
-  }
-  if (node->left == nullptr && node->right == nullptr) {
-    return node->value;  
-  }
-  
-  std::string left = printHelper(node->left);
-  std::string right = printHelper(node->right);
-  
-  std::string result = "(" + left + " " + node->value + " " + right + ")";
-  
-  return result;
-}
 
+std::string Tree::printHelper(const Node* node) const {
+    if (node == nullptr) {
+        return "-";  
+    }
+
+    std::string left = (node->left ? printHelper(node->left) : "-");
+    std::string right = (node->right ? printHelper(node->right) : "-");
+
+    if (left == "-" && right == "-") {
+        return node->value; 
+    }
+    return "(" + left + " " + node->value + " " + right + ")";
+}
 
 void Tree::print() const {
   std::cout << printHelper(root) << "\n";
