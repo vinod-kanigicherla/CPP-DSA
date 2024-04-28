@@ -182,27 +182,29 @@ void Tree::remove(size_t index) {
 
 
 
+
 void Tree::rotate(Node*& node) {
     if (node == nullptr) return;
 
-    updateWeights(node); 
+    updateWeights(node);  
     int leftWeight = node->left ? node->left->weight : 0;
     int rightWeight = node->right ? node->right->weight : 0;
     int balance = leftWeight - rightWeight;
 
-    if (balance > 1) { 
-        if (node->left && node->left->right && (node->left->right->weight > node->left->left->weight)) {
+    if (balance > 1) {
+        if (node->left && node->left->right &&
+            node->left->right->weight > (node->left->left ? node->left->left->weight : 0)) {
             leftRotate(node->left);
         }
         rightRotate(node);
     } else if (balance < -1) {
-        if (node->right && node->right->left && (node->right->left->weight > node->right->right->weight)) {
+        if (node->right && node->right->left &&
+            node->right->left->weight > (node->right->right ? node->right->right->weight : 0)) {
             rightRotate(node->right);
         }
         leftRotate(node);
     }
 }
-
 
 void Tree::rightRotate(Node*& root) {
     Node* newRoot = root->left;
