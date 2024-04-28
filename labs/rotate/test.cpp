@@ -12,6 +12,8 @@ int main() {
   std::string node = "a";
   std::string node1 = "b";
   std::string node2 = "c";
+  tree.insert("d");
+  tree.insert("f");
   tree.insert(node);
   tree.insert(node1);
   tree.insert(node2);
