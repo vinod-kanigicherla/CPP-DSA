@@ -91,7 +91,7 @@ void Tree::insertHelper(Node*& node, const std::string& s) {
   }
 
   updateWeights(node);
-  //rotate(node);
+  rotate(node);
 }
 
 void Tree::insert(const std::string& s){
@@ -172,7 +172,7 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex) {
 
     if (node) {
         updateWeights(node); 
-        //rotate(node);       
+        rotate(node);       
     }
     return node;
 }
@@ -181,21 +181,28 @@ void Tree::remove(size_t index) {
 }
 
 
+
 void Tree::rotate(Node*& node) {
     if (node == nullptr) return;
 
+    updateWeights(node); 
     int leftWeight = node->left ? node->left->weight : 0;
     int rightWeight = node->right ? node->right->weight : 0;
     int balance = leftWeight - rightWeight;
 
-    if (abs(balance) <= 1) return;  
-
-    if (balance > 1) {
+    if (balance > 1) { 
+        if (node->left && node->left->right && (node->left->right->weight > node->left->left->weight)) {
+            leftRotate(node->left);
+        }
         rightRotate(node);
     } else if (balance < -1) {
+        if (node->right && node->right->left && (node->right->left->weight > node->right->right->weight)) {
+            rightRotate(node->right);
+        }
         leftRotate(node);
     }
 }
+
 
 void Tree::rightRotate(Node*& root) {
     Node* newRoot = root->left;
