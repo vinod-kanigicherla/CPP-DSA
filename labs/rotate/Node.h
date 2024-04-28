@@ -10,6 +10,7 @@ struct Node {
   string value;
   Node* left;
   Node* right;
+  Node* parent;
   size_t weight;
 
   Node(string value);

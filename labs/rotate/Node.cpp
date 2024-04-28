@@ -6,5 +6,6 @@ Node::Node(string value) {
   this->value = value;
   this->left = nullptr;
   this->right = nullptr;
+  this->parent = nullptr; 
   this->weight = 1;
 }

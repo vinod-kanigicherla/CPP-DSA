@@ -17,7 +17,7 @@ void Tree::clearHelper(Node* node) {
   clearHelper(node->left);
   clearHelper(node->right);
 
-    delete node;
+  delete node;
 }
 
 Tree::~Tree() {
@@ -78,24 +78,20 @@ size_t Tree::find(const std::string& s) const {
   return findHelper(root, s);
 }
 
-void Tree::insertHelper(Node*& node, const std::string& s) {
-  if (node == nullptr) {
-    node = new Node(s);
-    return;
-  }
-
-  if (s < node->value) {
-    insertHelper(node->left, s);
-  } else {
-    insertHelper(node->right, s);
-  }
-
-  updateWeights(node);
-  rotate(node);
+void Tree::insertHelper(Node*& node, const std::string& s, Node* parent) {
+    if (!node) {
+        node = new Node(s);
+        node->parent = parent; 
+    } else if (s < node->value) {
+        insertHelper(node->left, s, node); 
+    } else {
+        insertHelper(node->right, s, node);
+    }
+    rotate(node);
 }
 
 void Tree::insert(const std::string& s){
-  insertHelper(root, s);
+  insertHelper(root, s, nullptr);
 }
 
 
@@ -218,18 +214,22 @@ void Tree::rotate(Node*& node) {
     }
 }
 
+
 void Tree::rightRotate(Node*& root) {
     Node* leftChild = root->left;
     if (!leftChild) return;
 
     root->left = leftChild->right;
+    if (leftChild->right != nullptr) {
+        leftChild->right->parent = root; 
+    }
+
     leftChild->right = root;
     root = leftChild;
 
     updateWeights(root->right);
-    updateWeights(root);     
+    updateWeights(root);
 }
-
 
 
 void Tree::leftRotate(Node*& root) {
@@ -237,13 +237,16 @@ void Tree::leftRotate(Node*& root) {
     if (!rightChild) return;
 
     root->right = rightChild->left;
+    if (rightChild->left != nullptr) {
+        rightChild->left->parent = root; 
+    }
+
     rightChild->left = root;
-    root = rightChild; 
+    root = rightChild;
 
-    updateWeights(root->left); 
-    updateWeights(root);     
+    updateWeights(root->left);
+    updateWeights(root);
 }
-
 
 void Tree::updateWeights(Node* node) {
     if (node) {
