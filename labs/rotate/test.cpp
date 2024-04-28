@@ -28,9 +28,9 @@ void testSingleInsert() {
 
 void testMultipleInserts() {
     Tree t;
-    t.insert("a");
-    t.insert("b");
-    t.insert("c");    
+    t.insert("Aquarius");
+    t.insert("Capricorn");
+    t.insert("Gemini");    
     std::cout << "Test Multiple Inserts:" << std::endl;
     std::cout << "Expected print output structure check, Actual: ";
     t.print();
