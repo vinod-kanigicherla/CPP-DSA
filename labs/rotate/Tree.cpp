@@ -186,7 +186,7 @@ void Tree::rotate(Node*& node) {
     int rightWeight = node->right ? node->right->weight : 0;
     int currentImbalance = std::abs(static_cast<int>(leftWeight - rightWeight));
 
-    if (currentImbalance <= 1) return;
+    if (currentImbalance == 0) return;
 
     if (leftWeight > rightWeight && node->left && node->left->right) {
         int leftRightWeight = node->left->right->weight;
