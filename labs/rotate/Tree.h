@@ -16,6 +16,7 @@ class Tree {
   std::string findMinValue(Node* node); 
   Node* removeHelper(Node*& node, size_t index, size_t currIndex);
   void rotate(Node*& node);
+  int getImbalance(Node* node);
   void rightRotate(Node*& node);
   void leftRotate(Node*& node);
   void updateWeights(Node* node);

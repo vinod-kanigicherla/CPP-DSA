@@ -26,18 +26,25 @@ void testSingleInsert() {
 }
 
 
+
 void testMultipleInserts() {
     Tree t;
+    std::cout << "Insert b:" << std::endl;
     t.insert("a");
-    t.insert("b");
-    t.insert("c");
-    t.insert("d");
-    t.insert("e");
+    t.print();
 
-    std::cout << "Test Multiple Inserts:" << std::endl;
-    std::cout << "Expected print output structure check, Actual: ";
+    std::cout << "Insert a:" << std::endl;
+    t.insert("b");
+    t.print();
+
+    std::cout << "Insert d:" << std::endl;
+    t.insert("c");
+    t.print();
+
+    std::cout << "Final Tree:" << std::endl;
     t.print();
 }
+
 
 
 // void testRotations() {
