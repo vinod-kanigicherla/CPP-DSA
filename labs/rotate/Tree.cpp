@@ -179,13 +179,6 @@ void Tree::remove(size_t index) {
   removeHelper(root, index, 0);
 }
 
-int Tree::getImbalance(Node* node) {
-    if (node == nullptr) return 0;
-    int leftWeight = node->left ? node->left->weight : 0;
-    int rightWeight = node->right ? node->right->weight : 0;
-    return std::abs(leftWeight - rightWeight);
-}
-
 void Tree::rotate(Node*& node) {
     if (node == nullptr) return;
 
