@@ -29,16 +29,16 @@ void testSingleInsert() {
 
 void testMultipleInserts() {
     Tree t;
-    std::cout << "Insert b:" << std::endl;
-    t.insert("aquarius");
+    t.insert("salmon");
     t.print();
 
-    std::cout << "Insert a:" << std::endl;
-    t.insert("capricorn");
+    t.insert("vermillion");
     t.print();
 
-    std::cout << "Insert d:" << std::endl;
-    t.insert("gemini");
+    t.insert("scarlet");
+    t.print();
+
+    t.insert("tomato");
     t.print();
 }
 
