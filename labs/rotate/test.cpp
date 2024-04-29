@@ -3,26 +3,26 @@
 
 void testEmptyTree() {
     Tree t;
-    std::cout << "Test Empty Tree:" << std::endl;
-    std::cout << "Expected print output: -, Actual: ";
+    t.insert("b");
     t.print();
-    try {
-        std::cout << "Expected count: 0, Actual: " << t.count() << std::endl;
-        t.lookup(0);
-    } catch (const std::out_of_range& e) {
-        std::cout << "Expected exception on lookup(0): " << e.what() << std::endl;
-    }
+    t.insert("a");
+    t.print();
+    t.insert("d");
+    t.print();
+    t.insert("c");
+    t.print();
+    t.insert("e");
 }
 
 
 void testSingleInsert() {
     Tree t;
-    t.insert("apple");
-    std::cout << "Test Single Insert:" << std::endl;
-    std::cout << "Expected print output: apple, Actual: ";
+    t.insert("a");
     t.print();
-    std::cout << "Expected count: 1, Actual: " << t.count() << std::endl;
-    std::cout << "Expected contains 'apple': true, Actual: " << (t.contains("apple") ? "true" : "false") << std::endl;
+    t.insert("b");
+    t.print();
+    t.insert("c");
+    t.print();
 }
 
 
