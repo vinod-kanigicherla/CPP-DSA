@@ -56,27 +56,28 @@ bool Tree::contains(const std::string& s) const {
   return containsHelper(root, s);
 }
 
-size_t Tree::findHelper(const Node* node, const std::string& s) const {
-  size_t index = 0;
 
-  while (node) {
-    size_t left_size = (node->left) ? node->left->weight: 0; 
-    if (s == node->value) {
-      return index + left_size;
-    } else if (s < node->value) {
-      node = node->left;
-    } else {
-      index += left_size + 1;
-      node = node->right;
+size_t Tree::findHelper(const Node* node, const std::string& s, size_t& index) const {
+    if (node == nullptr) {
+        return std::numeric_limits<size_t>::max();
     }
-  }
 
-  return std::numeric_limits<size_t>::max();
+    if (s < node->value) {
+        return findHelper(node->left, s, index);
+    } else if (s > node->value) {
+        index += (node->left ? node->left->weight : 0) + 1;
+        return findHelper(node->right, s, index);
+    } else {
+        size_t left_result = findHelper(node->left, s, index);
+        return left_result == std::numeric_limits<size_t>::max() ? index : left_result;
+    }
 }
 
 size_t Tree::find(const std::string& s) const {
-  return findHelper(root, s);
+    size_t index = 0;
+    return findHelper(root, s, index);
 }
+
 
 void Tree::insertHelper(Node*& node, const std::string& s, Node* parent) {
     if (!node) {
