@@ -219,9 +219,6 @@ void Tree::rotate(Node*& node, bool moveLeft) {
 
     if (currentImbalance == 0) return; 
 
-    Node* tempLeft = node->left;
-    Node* tempRight = node->right;
-
     if (moveLeft && leftWeight > rightWeight) {
         int newImbalance = predictImbalanceAfterRightRotation(node);
         if (newImbalance < currentImbalance) {
