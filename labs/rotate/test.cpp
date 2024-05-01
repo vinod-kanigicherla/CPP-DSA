@@ -17,7 +17,7 @@ void testEmptyTree() {
     t.print();
     t.insert("b");
     t.print();
-    t.remove(6);
+    t.remove(4);
     t.print();
     t.remove(1);
     t.print();
