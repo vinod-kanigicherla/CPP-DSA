@@ -3,25 +3,22 @@
 
 void testEmptyTree() {
     Tree t;
-    t.insert("b");
-    t.print();
     t.insert("a");
     t.print();
-    t.insert("d");
+    t.insert("b");
     t.print();
     t.insert("c");
     t.print();
-    t.insert("e");
 }
 
 
 void testSingleInsert() {
     Tree t;
-    t.insert("a");
+    t.insert("tellurium");
     t.print();
-    t.insert("b");
+    t.insert("sulfur");
     t.print();
-    t.insert("c");
+    t.insert("selenium");
     t.print();
 }
 
