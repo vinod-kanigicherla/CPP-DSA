@@ -152,7 +152,6 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
 
     size_t leftWeight = node->left ? node->left->weight : 0;
     size_t nodeIndex = currIndex + leftWeight;
-    std::cout << "Current Index: " << nodeIndex << "\n";
 
 
     if (index == nodeIndex) {
@@ -179,11 +178,11 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
             }
             delete minNode;
             // Update weights from the parent of the minimum node upwards after removal
-            Node* temp = parentOfMin;
-            while (temp != nullptr) {
-                updateWeights(temp);
-                temp = temp->parent;
-            }
+            // Node* temp = parentOfMin;
+            // while (temp != nullptr) {
+            //     updateWeights(temp);
+            //     temp = temp->parent;
+            //}
         } else {
             // Node with one child or no child
             Node* temp = node->left ? node->left : node->right;
