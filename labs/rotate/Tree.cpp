@@ -161,7 +161,7 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
             Node* temp = (node->left != nullptr) ? node->left : node->right;
             delete node;
             node = temp;
-            isLeftSubtree = (node == temp);
+            isLeftSubtree = false;
         }
     } else if (index < nodeIndex) {
         node->left = removeHelper(node->left, index, currIndex, true);
@@ -261,9 +261,6 @@ void Tree::rotate(Node*& node, bool moveLeft) {
 
     updateWeights(node);
 }
-
-
-
 
 
 void Tree::rightRotate(Node*& root) {
