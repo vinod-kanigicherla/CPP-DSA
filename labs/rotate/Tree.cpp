@@ -146,7 +146,7 @@ std::string Tree::findMinValue(Node* node) {
 }
 
 Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLeftSubtree) {
-    if (node == nullptr) {
+    if (!node) {
         throw std::out_of_range("Index out of range");
     }
 
@@ -155,13 +155,18 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
 
     if (index == nodeIndex) {
         if (node->left && node->right) {
-            node->value = findMinValue(node->right);
-            removeHelper(node->right, 0, nodeIndex + 1, false);
+            Node* minNode = node->right;
+            while (minNode->left) {
+                minNode = minNode->left;
+            }
+            node->value = minNode->value; // Swap values
+            // Remove the node that now contains the duplicate value
+            removeHelper(node->right, nodeIndex + 1 + (node->right->left ? node->right->left->weight : 0), nodeIndex + 1, false);
         } else {
-            Node* temp = (node->left != nullptr) ? node->left : node->right;
+            Node* temp = node->left ? node->left : node->right;
             delete node;
             node = temp;
-            isLeftSubtree = false;
+            // isLeftSubtree = (temp && temp == node->left);
         }
     } else if (index < nodeIndex) {
         node->left = removeHelper(node->left, index, currIndex, true);
@@ -175,6 +180,7 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
     }
     return node;
 }
+
 
 
 void Tree::remove(size_t index) {
