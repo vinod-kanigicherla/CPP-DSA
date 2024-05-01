@@ -17,6 +17,7 @@ class Tree {
   Node* removeHelper(Node*& node, size_t index, size_t currIndex, bool moveLeft);
   void rotate(Node*& node, bool moveLeft);
   int getImbalance(Node* node);
+  Node* findMinNodeForRemoval(Node*& node, Node*& parent);
   void rightRotate(Node*& node);
   void leftRotate(Node*& node);
   void updateWeights(Node* node);

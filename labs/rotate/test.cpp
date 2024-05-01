@@ -3,23 +3,21 @@
 
 void testEmptyTree() {
     Tree t;
-    t.insert("a");
+    t.insert("nu");
+    t.insert("epsilon");
+    t.insert("omicron");
+    t.insert("beta");
+    t.insert("iota");
     t.print();
-    t.insert("b");
+    t.insert("omega");
     t.print();
-    t.insert("c");
+    t.insert("pi");
     t.print();
-    t.insert("d");
+    t.insert("phi");
     t.print();
-    t.insert("f");
+    t.insert("psi");
     t.print();
-    t.insert("e");
-    t.print();
-    t.insert("b");
-    t.print();
-    t.remove(4);
-    t.print();
-    t.remove(1);
+    t.remove(3);
     t.print();
 }
 

@@ -145,59 +145,58 @@ std::string Tree::findMinValue(Node* node) {
     return node->value;
 }
 
-Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLeftSubtree) {
-    if (!node) {
-        throw std::out_of_range("Index out of range");
+// Finds and removes the minimum node starting from a given node, also handles rotations
+Node* Tree::findMinNodeForRemoval(Node*& node, Node*& parent) {
+    if (node->left == nullptr) {
+        // This is the minimum node
+        Node* minNode = node;
+        node = node->right;  // Replace minNode with its right child, if any
+        if (node) node->parent = parent;
+        return minNode;
+    } else {
+        Node* minNode = findMinNodeForRemoval(node->left, node);
+        updateWeights(node);  // Update weights after the recursive call
+        rotate(node, false);         // Perform rotations if necessary
+        return minNode;
     }
+}
+
+// Node removal logic, accounting for correct balance maintenance
+Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool moveLeft) {
+    if (!node) throw std::out_of_range("Index out of range");
 
     size_t leftWeight = node->left ? node->left->weight : 0;
     size_t nodeIndex = currIndex + leftWeight;
 
     if (index == nodeIndex) {
+        Node* parentOfMin = node;
         if (node->left && node->right) {
-            Node* parentOfMin = node;
-            Node* minNode = node->right;
-            while (minNode->left) {
-                parentOfMin = minNode;
-                minNode = minNode->left;
-            }
-            node->value = minNode->value;
-            if (parentOfMin == node) {
-                parentOfMin->right = minNode->right;
-                if (minNode->right) {
-                    minNode->right->parent = parentOfMin;
-                }
-            } else {
-                parentOfMin->left = minNode->right;
-                if (minNode->right) {
-                    minNode->right->parent = parentOfMin;
-                }
-            }
-            delete minNode;
-
-            // Update weights from the parent of the minimum node to the actual node
-            Node* temp = parentOfMin;
-            while (temp) {
-                updateWeights(temp);
-                temp = temp->parent;
-            }
+            
+            Node* minNode = findMinNodeForRemoval(node->right, parentOfMin);
+            node->value = minNode->value;  // Replace value with the min value from the right subtree
+            delete minNode;               // Delete the minimum node
         } else {
             Node* temp = node->left ? node->left : node->right;
             delete node;
             node = temp;
+            if (node) node->parent = parentOfMin;  // Correct parent pointer
         }
     } else if (index < nodeIndex) {
-        node->left = removeHelper(node->left, index, currIndex, true);
+        node->left = removeHelper(node->left, index, currIndex, false);
     } else {
         node->right = removeHelper(node->right, index, nodeIndex + 1, false);
     }
 
     if (node) {
         updateWeights(node);
-        rotate(node, isLeftSubtree);
+        rotate(node, false);
     }
     return node;
 }
+
+
+
+
 
 
 
