@@ -166,7 +166,7 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
             delete node;
             node = result;
         }
-        isLeftSubtree = result == node->left;
+        isLeftSubtree = false;
     } else if (index < nodeIndex) {
         node->left = removeHelper(node->left, index, currIndex, true);
     } else {
