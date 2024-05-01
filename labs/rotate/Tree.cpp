@@ -159,9 +159,9 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
             while (minNode->left) {
                 minNode = minNode->left;
             }
-            node->value = minNode->value; // Swap values
-            // Remove the node that now contains the duplicate value
+            node->value = minNode->value;
             removeHelper(node->right, nodeIndex + 1 + (node->right->left ? node->right->left->weight : 0), nodeIndex + 1, false);
+            updateWeights(node);
         } else {
             Node* temp = node->left ? node->left : node->right;
             delete node;
