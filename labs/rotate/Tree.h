@@ -10,13 +10,11 @@ class Tree {
   void clearHelper(Node* node);
   bool containsHelper(const Node* node, const std::string& s) const;
   size_t findHelper(const Node* node, const std::string& s, size_t& index) const;
-  void insertHelper(Node*& node, const std::string& s, Node* parent, bool moveLeft);
+  void insertHelper(Node*& node, const std::string& s, Node* parent);
   std::string lookupHelper(const Node* node, size_t index, size_t currIndex) const;
   std::string printHelper(const Node* node) const;
-  std::string findMinValue(Node* node); 
-  Node* removeHelper(Node*& node, size_t index, size_t currIndex, bool moveLeft);
-  void rotate(Node*& node, bool moveLeft);
-  int getImbalance(Node* node);
+  Node* removeHelper(Node*& node, size_t index, size_t currIndex);
+  void rotate(Node*& node);
   Node* findMinNodeForRemoval(Node*& node, Node*& parent);
   void rightRotate(Node*& node);
   void leftRotate(Node*& node);

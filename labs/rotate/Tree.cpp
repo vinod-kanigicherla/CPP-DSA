@@ -80,21 +80,21 @@ size_t Tree::find(const std::string& s) const {
 }
 
 
-void Tree::insertHelper(Node*& node, const std::string& s, Node* parent, bool moveLeft) {
+void Tree::insertHelper(Node*& node, const std::string& s, Node* parent) {
     if (!node) {
         node = new Node(s);
         node->parent = parent;
     } else if (s <= node->value) {
-        insertHelper(node->left, s, node, true);
+        insertHelper(node->left, s, node);
     } else {
-        insertHelper(node->right, s, node, false);
+        insertHelper(node->right, s, node);
     }
     updateWeights(node);
-    rotate(node, moveLeft);
+    rotate(node);
 }
 
 void Tree::insert(const std::string& s) {
-  insertHelper(root, s, nullptr, false);
+  insertHelper(root, s, nullptr);
 }
 
 
@@ -138,12 +138,6 @@ std::string Tree::lookup(size_t index) const {
   return lookupHelper(root, index, 0); 
 } 
 
-std::string Tree::findMinValue(Node* node) {
-    while (node->left != nullptr) {
-        node = node->left;
-    }
-    return node->value;
-}
 
 // Finds and removes the minimum node starting from a given node, also handles rotations
 Node* Tree::findMinNodeForRemoval(Node*& node, Node*& parent) {
@@ -156,13 +150,13 @@ Node* Tree::findMinNodeForRemoval(Node*& node, Node*& parent) {
     } else {
         Node* minNode = findMinNodeForRemoval(node->left, node);
         updateWeights(node);  // Update weights after the recursive call
-        rotate(node, false);         // Perform rotations if necessary
+        rotate(node);         // Perform rotations if necessary
         return minNode;
     }
 }
 
 // Node removal logic, accounting for correct balance maintenance
-Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool moveLeft) {
+Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex) {
     if (!node) throw std::out_of_range("Index out of range");
 
     size_t leftWeight = node->left ? node->left->weight : 0;
@@ -182,50 +176,34 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool moveL
             if (node) node->parent = parentOfMin;  // Correct parent pointer
         }
     } else if (index < nodeIndex) {
-        node->left = removeHelper(node->left, index, currIndex, false);
+        node->left = removeHelper(node->left, index, currIndex);
     } else {
-        node->right = removeHelper(node->right, index, nodeIndex + 1, false);
+        node->right = removeHelper(node->right, index, nodeIndex + 1);
     }
 
     if (node) {
         updateWeights(node);
-        rotate(node, false);
+        rotate(node);
     }
     return node;
 }
 
 
-
-
-
-
-
-
 void Tree::remove(size_t index) {
-    removeHelper(root, index, 0, false);
+    removeHelper(root, index, 0);
 }
 
 
-int Tree::getImbalance(Node* node) {
-    if (node == nullptr) return 0;
-    int leftWeight = node->left ? node->left->weight : 0;
-    int rightWeight = node->right ? node->right->weight : 0;
-    return std::abs(leftWeight - rightWeight);
-}
-
-// Example refined function to check improvements post-rotation
 int predictImbalanceAfterRightRotation(Node* node) {
     if (!node || !node->left) return std::numeric_limits<int>::max();
     
-    // Nodes that will be directly affected by the rotation
     Node* leftChild = node->left;
     Node* leftChildsRight = leftChild ? leftChild->right : nullptr;
 
-    // Calculate potential new weights after the rotation
     int newLeftWeight = leftChild->left ? leftChild->left->weight : 0;
     int newRightWeight = node->right ? node->right->weight : 0;
     if (leftChildsRight) newRightWeight += leftChildsRight->weight;
-    newRightWeight += 1; // Adding the current node as part of the new right subtree
+    newRightWeight += 1;
 
     return std::abs(newLeftWeight - newRightWeight);
 }
@@ -235,22 +213,20 @@ int predictImbalanceAfterRightRotation(Node* node) {
 int predictImbalanceAfterLeftRotation(Node* node) {
     if (!node || !node->right) return std::numeric_limits<int>::max();
 
-    // Nodes that will be directly affected by the rotation
     Node* rightChild = node->right;
     Node* rightChildsLeft = rightChild ? rightChild->left : nullptr;
 
-    // Calculate potential new weights after the rotation
     int newRightWeight = rightChild->right ? rightChild->right->weight : 0;
     int newLeftWeight = node->left ? node->left->weight : 0;
     if (rightChildsLeft) newLeftWeight += rightChildsLeft->weight;
-    newLeftWeight += 1; // Adding the current node as part of the new left subtree
+    newLeftWeight += 1;
 
     return std::abs(newLeftWeight - newRightWeight);
 }
 
 
 
-void Tree::rotate(Node*& node, bool moveLeft) {
+void Tree::rotate(Node*& node) {
     if (node == nullptr) return;
 
     updateWeights(node);
