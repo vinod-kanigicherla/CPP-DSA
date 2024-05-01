@@ -145,7 +145,6 @@ std::string Tree::findMinValue(Node* node) {
     return node->value;
 }
 
-
 Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLeftSubtree) {
     if (node == nullptr) {
         throw std::out_of_range("Index out of range");
@@ -153,20 +152,17 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
 
     size_t leftWeight = node->left ? node->left->weight : 0;
     size_t nodeIndex = currIndex + leftWeight;
-    Node* result = nullptr;
 
     if (index == nodeIndex) {
-        // Node with two children
         if (node->left && node->right) {
-            node->value = findMinValue(node->right); 
-            removeHelper(node->right, 0, nodeIndex + 1, false); 
+            node->value = findMinValue(node->right);
+            removeHelper(node->right, 0, nodeIndex + 1, false);
         } else {
-            // Node with one child or no child
-            result = node->left ? node->left : node->right;
+            Node* temp = (node->left != nullptr) ? node->left : node->right;
             delete node;
-            node = result;
+            node = temp;
+            isLeftSubtree = (node == temp);
         }
-        isLeftSubtree = false;
     } else if (index < nodeIndex) {
         node->left = removeHelper(node->left, index, currIndex, true);
     } else {
@@ -175,10 +171,11 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
 
     if (node) {
         updateWeights(node);
-        rotate(node, isLeftSubtree); 
+        rotate(node, isLeftSubtree);
     }
     return node;
 }
+
 
 void Tree::remove(size_t index) {
     removeHelper(root, index, 0, false);

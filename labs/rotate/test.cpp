@@ -9,6 +9,10 @@ void testEmptyTree() {
     t.print();
     t.insert("c");
     t.print();
+    t.remove(2);
+    t.print();
+    t.remove(1);
+    t.print();
 }
 
 
