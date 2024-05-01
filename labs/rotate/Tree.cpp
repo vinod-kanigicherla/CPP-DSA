@@ -153,42 +153,38 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
     size_t leftWeight = node->left ? node->left->weight : 0;
     size_t nodeIndex = currIndex + leftWeight;
 
-
     if (index == nodeIndex) {
         if (node->left && node->right) {
-            // Find the minimum node in the right subtree
             Node* parentOfMin = node;
             Node* minNode = node->right;
             while (minNode->left) {
                 parentOfMin = minNode;
                 minNode = minNode->left;
             }
-            // Replace node's value with minNode's value
             node->value = minNode->value;
-            // Remove the minNode from the tree
             if (parentOfMin == node) {
-                // Special case: the minNode is the direct right child of the node to be deleted
                 parentOfMin->right = minNode->right;
+                if (minNode->right) {
+                    minNode->right->parent = parentOfMin;
+                }
             } else {
-                // General case: minNode is left descendant of node's right child
                 parentOfMin->left = minNode->right;
                 if (minNode->right) {
                     minNode->right->parent = parentOfMin;
                 }
             }
             delete minNode;
-            // Update weights from the parent of the minimum node upwards after removal
-            // Node* temp = parentOfMin;
-            // while (temp != nullptr) {
-            //     updateWeights(temp);
-            //     temp = temp->parent;
-            //}
+
+            // Update weights from the parent of the minimum node to the actual node
+            Node* temp = parentOfMin;
+            while (temp) {
+                updateWeights(temp);
+                temp = temp->parent;
+            }
         } else {
-            // Node with one child or no child
             Node* temp = node->left ? node->left : node->right;
             delete node;
             node = temp;
-            isLeftSubtree = false;
         }
     } else if (index < nodeIndex) {
         node->left = removeHelper(node->left, index, currIndex, true);
@@ -202,6 +198,7 @@ Node* Tree::removeHelper(Node*& node, size_t index, size_t currIndex, bool isLef
     }
     return node;
 }
+
 
 
 
