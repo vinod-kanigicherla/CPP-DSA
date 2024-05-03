@@ -43,7 +43,6 @@ AST* AST::parse(const std::string &expression) {
                 }
                 AST* operand = stack->pop();
                 stack->push(new NegationNode(operand));
-                delete operand;
             } else {
                 if (stack->count() < 2) {
                     delete stack;
@@ -52,8 +51,6 @@ AST* AST::parse(const std::string &expression) {
                 AST* right = stack->pop();
                 AST* left = stack->pop();
                 stack->push(new OperatorNode(token[0], left, right));
-                delete right;
-                delete left;
             }
         }  else {
             if (checkInvalidToken(token)) {
