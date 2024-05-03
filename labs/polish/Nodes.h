@@ -17,9 +17,9 @@ public:
 };
 
 class OperatorNode : public AST {
+    char op;
     AST* left;
     AST* right;
-    char op;
 
 public:
     OperatorNode(char op, AST* left, AST* right) : op(op), left(left), right(right) {}
