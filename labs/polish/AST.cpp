@@ -23,7 +23,7 @@ AST* AST::parse(const std::string &expression) {
                 double num = std::stod(token);
                 stack->push(new NumberNode(num));
             } catch (const std::invalid_argument& ex) {
-                delete &stack;
+                delete stack;
                 throw std::runtime_error("Invalid token: " + token);
             }
         }
