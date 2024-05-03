@@ -11,9 +11,9 @@ public:
     NumberNode(double num) : num(num) {}
     virtual ~NumberNode() {}
 
-    virtual std::string prefix() const override { return std::to_string(num); }
-    virtual std::string postfix() const override { return std::to_string(num); }
-    virtual double value() const override { return num; }
+    virtual std::string prefix() const override; 
+    virtual std::string postfix() const override; 
+    virtual double value() const override; 
 };
 
 class OperatorNode : public AST {

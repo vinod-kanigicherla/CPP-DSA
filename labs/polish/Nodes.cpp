@@ -11,6 +11,18 @@ std::string format(double number) {
   return stream.str();
 }
 
+std::string NumberNode::prefix() const {
+    return format(num);
+}
+
+std::string NumberNode::postfix() const {
+    return format(num); 
+}
+
+double NumberNode::value() const {
+    return num; 
+}
+
 std::string OperatorNode::prefix() const {
   return std::string(1, op) + " " + left->prefix() + " " + right->prefix();
 }
