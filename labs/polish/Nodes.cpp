@@ -32,17 +32,30 @@ double OperatorNode::value() const {
             return left->value() * right->value();
         case '/':
             if (right->value() == 0) 
-                throw std::runtime_error("Division by zero");
+                throw std::runtime_error("Division by zero.");
             return left->value() / right->value();
         case '%':
             lval = left->value();
             rval = right->value();
             if (rval == 0) 
-                throw std::runtime_error("Division by zero");
+                throw std::runtime_error("Division by zero.");
             return std::fmod(lval, rval);
+        case '~':
+            return -1 * value();
         default:
             throw std::runtime_error("Unsupported operator: " + std::string(1, op));
     }
 }
 
+std::string NegationNode::prefix() const {
+    return "~ " + operand->prefix();
+}
+
+std::string NegationNode::postfix() const {
+    return operand->postfix() + " ~";
+}
+
+double NegationNode::value() const {
+    return -1 * operand->value();
+}
 

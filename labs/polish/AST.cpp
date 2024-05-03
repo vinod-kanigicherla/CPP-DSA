@@ -6,34 +6,62 @@
 #include <stdexcept>
 #include <string>
 
+#include <cctype>
+
+bool checkInvalidToken(const std::string& token) {
+    size_t start = 0; 
+    if (token[0] == '+' || token[0] == '-') {
+        if (token.size() == 1) return true;
+        start = 1;
+    }
+
+    bool seen = false;
+    for (size_t i = start; i < token.length(); i++) {
+        if (token[i] == '.') {
+            if (seen) return true;
+            seen = true;
+        } else if (!std::isdigit(token[i])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
 AST* AST::parse(const std::string &expression) {
     std::string token;
     std::istringstream stream(expression);
     Stack* stack = new Stack();
 
     while (stream >> token) {
-        if (token.size() == 1 && std::string("+-*/%").find(token) != std::string::npos) {
+        if (token.size() == 1 && std::string("+-*/%~").find(token) != std::string::npos) {
             if (stack->count() < 2)
-                throw std::runtime_error("Not enough operands");
-            AST* right = stack->pop();
-            AST* left = stack->pop();
-            stack->push(new OperatorNode(token[0], left, right));
-        } else {
-            try {
-                double num = std::stod(token);
-                stack->push(new NumberNode(num));
-            } catch (const std::invalid_argument& ex) {
+                throw std::runtime_error("Not enough operands.");
+            if (token[0] == '~') {
+                AST* operand = stack->pop();
+                stack->push(new NegationNode(operand));
+            } else {
+                AST* right = stack->pop();
+                AST* left = stack->pop();
+                stack->push(new OperatorNode(token[0], left, right));
+            }
+        }  else {
+            if (checkInvalidToken(token)) {
                 delete stack;
                 throw std::runtime_error("Invalid token: " + token);
+            } else {
+                double num = std::stod(token);
+                stack->push(new NumberNode(num));
             }
         }
-    }
+        }
 
     if (stack->count() == 0) {
-        throw std::runtime_error("No input");
+        throw std::runtime_error("No input.");
     }
     if (stack->count() > 1) {
-        throw std::runtime_error("Too many operands");
+        throw std::runtime_error("Too many operands.");
     }
 
     return stack->pop();

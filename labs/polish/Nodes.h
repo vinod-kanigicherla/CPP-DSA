@@ -33,4 +33,17 @@ public:
     virtual double value() const override;
 };
 
+// Special Node: Negation (Single-Child!)
+
+class NegationNode : public AST {
+    AST* operand; 
+
+ public:
+    NegationNode(AST* operand) : operand(operand) {}
+    virtual ~NegationNode();
+
+    virtual std::string prefix() const override; 
+    virtual std::string postfix() const override;
+    virtual double value() const override;
+};
 #endif // NODES_H
