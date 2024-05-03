@@ -36,8 +36,10 @@ AST* AST::parse(const std::string &expression) {
 
     while (stream >> token) {
         if (token.size() == 1 && std::string("+-*/%~").find(token) != std::string::npos) {
-            if (stack->count() < 2)
+            if (stack->count() < 2) {
+                delete stack;
                 throw std::runtime_error("Not enough operands.");
+            }
             if (token[0] == '~') {
                 AST* operand = stack->pop();
                 stack->push(new NegationNode(operand));
@@ -58,9 +60,11 @@ AST* AST::parse(const std::string &expression) {
         }
 
     if (stack->count() == 0) {
+        delete stack;
         throw std::runtime_error("No input.");
     }
     if (stack->count() > 1) {
+        delete stack;
         throw std::runtime_error("Too many operands.");
     }
 
