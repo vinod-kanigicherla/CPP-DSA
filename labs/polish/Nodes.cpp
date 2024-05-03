@@ -1,6 +1,7 @@
 #include "Nodes.h"
 
 #include <sstream>
+#include <stdexcept>
 #include <string> 
 #include <cmath>
 // This creates the number format the autograder expects:
@@ -19,17 +20,29 @@ std::string OperatorNode::postfix() const {
 }
 
 double OperatorNode::value() const {
+    double lval = 0;
+    double rval = 0;
+
     switch (op) {
-        case '+': return left->value() + right->value();
-        case '-': return left->value() - right->value();
-        case '*': return left->value() * right->value();
+        case '+': 
+            return left->value() + right->value();
+        case '-': 
+            return left->value() - right->value();
+        case '*': 
+            return left->value() * right->value();
         case '/':
-            if (right->value() == 0) throw std::runtime_error("Division by zero");
+            if (right->value() == 0) 
+                throw std::runtime_error("Division by zero");
             return left->value() / right->value();
         case '%':
-            double lval = left->value();
-            double rval = right->value();
-            if (rval == 0) throw std::runtime_error("Division by zero");
+            lval = left->value();
+            rval = right->value();
+            if (rval == 0) 
+                throw std::runtime_error("Division by zero");
             return std::fmod(lval, rval);
+        default:
+            throw std::runtime_error("Unsupported operator: " + std::string(1, op));
     }
 }
+
+
