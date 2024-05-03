@@ -47,6 +47,10 @@ double OperatorNode::value() const {
     }
 }
 
+NegationNode::~NegationNode() {
+    delete operand;
+}
+
 std::string NegationNode::prefix() const {
     return "~ " + operand->prefix();
 }
