@@ -1,0 +1,6 @@
+.PHONY: git-push
+
+git-push:
+	git add .
+	git commit -m "AST Lab Commit"
+	git push origin main

@@ -2,8 +2,35 @@
 #define NODES_H
 
 #include "AST.h"
+#include <string>
 
-// Declare your AST subclasses here.
-// Implement their member functions in Nodes.cpp.
+class NumberNode : public AST {
+    double num;
 
-#endif
+public:
+    NumberNode(double num) : num(num) {}
+    virtual ~NumberNode() {}
+
+    virtual std::string prefix() const override { return std::to_string(num); }
+    virtual std::string postfix() const override { return std::to_string(num); }
+    virtual double value() const override { return num; }
+};
+
+class OperatorNode : public AST {
+    AST* left;
+    AST* right;
+    char op;
+
+public:
+    OperatorNode(char op, AST* left, AST* right) : op(op), left(left), right(right) {}
+    virtual ~OperatorNode() {
+        delete left;
+        delete right;
+    }
+
+    virtual std::string prefix() const override;
+    virtual std::string postfix() const override;
+    virtual double value() const override;
+};
+
+#endif // NODES_H
