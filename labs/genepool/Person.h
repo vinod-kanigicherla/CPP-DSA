@@ -37,8 +37,8 @@ public:
 
   const std::string &name() const;
   Gender gender() const;
-  Person *mother() const;
-  Person *father() const;
+  Person *mother();
+  Person *father();
   std::set<Person *> children() const;
 
   // Required Relationship Functions
