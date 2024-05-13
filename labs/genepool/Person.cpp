@@ -2,6 +2,13 @@
 #include "Enums.h"
 
 // Person Member Functions
+
+const std::string &Person::name() const { return name_; }
+Gender Person::gender() const { return gender_; }
+Person *Person::mother() const { return mother_; }
+Person *Person::father() const { return father_; }
+std::set<Person *> Person::children() const { return children_; }
+
 std::set<Person *> Person::ancestors(PMod pmod) {
   std::set<Person *> res = parents(pmod);
   std::set<Person *> next;

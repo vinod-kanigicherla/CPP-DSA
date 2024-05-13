@@ -35,11 +35,11 @@ public:
 
   ~Person() {};
 
-  const std::string &name() const { return name_; }
-  Gender gender() const { return gender_; }
-  Person *mother() const { return mother_; }
-  Person *father() const { return father_; }
-  std::set<Person *> children() const { return children_; }
+  const std::string &name() const;
+  Gender gender() const;
+  Person *mother() const;
+  Person *father() const;
+  std::set<Person *> children() const;
 
   // Required Relationship Functions
   std::set<Person *> ancestors(PMod pmod = PMod::ANY);
