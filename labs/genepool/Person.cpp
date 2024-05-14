@@ -148,7 +148,7 @@ std::set<Person *> Person::grandparents(PMod pmod) {
         res.insert(father_->father());
       }
       if (mother_->father()) {
-        res.insert(mother_->father());
+        res.insert(father_->mother());
       }
     }
   }
