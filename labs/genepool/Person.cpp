@@ -13,8 +13,10 @@ std::set<Person *> Person::ancestors(PMod pmod) {
   std::set<Person *> res = parents(pmod);
   std::set<Person *> next;
   for (Person *parent : res) {
-    std::set<Person *> parentAncestors = parent->ancestors(pmod);
-    next.insert(parentAncestors.begin(), parentAncestors.end());
+    if (parent) {
+      std::set<Person *> parentAncestors = parent->ancestors(pmod);
+      next.insert(parentAncestors.begin(), parentAncestors.end());
+    }
   }
   res.insert(next.begin(), next.end());
   return res;
