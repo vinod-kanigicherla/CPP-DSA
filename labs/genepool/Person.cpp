@@ -10,15 +10,17 @@ Person *Person::father() { return father_; }
 std::set<Person *> Person::children() const { return children_; }
 
 std::set<Person *> Person::ancestors(PMod pmod) {
-  std::set<Person *> res = parents(pmod);
-  std::set<Person *> next;
-  for (Person *parent : res) {
-    if (parent) {
-      std::set<Person *> parentAncestors = parent->ancestors(pmod);
-      next.insert(parentAncestors.begin(), parentAncestors.end());
-    }
+  std::set<Person *> res;
+  if (mother_ && (pmod == PMod::MATERNAL || pmod == PMod::ANY)) {
+    res.insert(mother_);
+    std::set<Person *> maternalAncestors = mother_->ancestors(pmod);
+    res.insert(maternalAncestors.begin(), maternalAncestors.end());
   }
-  res.insert(next.begin(), next.end());
+  if (father_ && (pmod == PMod::PATERNAL || pmod == PMod::ANY)) {
+    res.insert(father_);
+    std::set<Person *> paternalAncestors = father_->ancestors(pmod);
+    res.insert(paternalAncestors.begin(), paternalAncestors.end());
+  }
   return res;
 }
 
