@@ -14,7 +14,7 @@ std::set<Person *> Person::ancestors(PMod pmod) {
   std::set<Person *> next;
   for (Person *parent : res) {
     if (parent) {
-      std::set<Person *> parentAncestors = parent->ancestors(pmod);
+      std::set<Person *> parentAncestors = parent->ancestors(PMod::ANY);
       next.insert(parentAncestors.begin(), parentAncestors.end());
     }
   }
