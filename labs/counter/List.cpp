@@ -2,10 +2,7 @@
 
 // List Member Functions
 
-Node::~Node() {
-  delete prev;
-  delete next;
-}
+Node::~Node() {}
 
 List::~List() {
   Node *curr = head;
@@ -14,6 +11,8 @@ List::~List() {
     delete curr;
     curr = next;
   }
+  head = nullptr;
+  tail = nullptr;
 }
 
 void List::append(const std::string &key, int value) {
@@ -39,7 +38,7 @@ Node *List::find(const std::string &key) const {
 }
 
 void List::remove(Node *node) {
-  if (!node)
+  if (node == nullptr)
     return;
 
   if (node->prev) {
@@ -53,6 +52,9 @@ void List::remove(Node *node) {
   } else {
     tail = tail->prev;
   }
+
+  node->next = nullptr;
+  node->prev = nullptr;
 
   delete node;
 }
