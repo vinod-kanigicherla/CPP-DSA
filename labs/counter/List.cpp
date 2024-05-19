@@ -41,22 +41,20 @@ void List::remove(Node *node) {
   if (node == nullptr)
     return;
 
-  if (node->prev == nullptr && node->next == nullptr) {
-    head = tail = nullptr;
-  }
-
   if (node->prev) {
     node->prev->next = node->next;
   } else {
-    head = head->next;
-    head->prev = nullptr;
+    head = node->next;
+    if (head)
+      head->prev = nullptr;
   }
 
   if (node->next) {
     node->next->prev = node->prev;
   } else {
-    tail = tail->prev;
-    tail->next = nullptr;
+    tail = node->prev;
+    if (tail)
+      tail->next = nullptr;
   }
 
   delete node;
