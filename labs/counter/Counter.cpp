@@ -47,7 +47,7 @@ void Counter::dec(const std::string &key, int by) {
 
 void Counter::del(const std::string &key) {
   Node *node = counter.find(key);
-  if (node)
+  if (node != nullptr)
     counter.remove(node);
 }
 

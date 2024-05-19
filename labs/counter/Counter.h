@@ -46,7 +46,7 @@ public:
   void set(const std::string &key, int count);
 
   Iterator begin() const { return Iterator(counter.head); }
-  Iterator end() const { return Iterator(); }
+  Iterator end() const { return Iterator(nullptr); }
 };
 
 #endif

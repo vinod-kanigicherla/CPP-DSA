@@ -21,7 +21,7 @@ void List::append(const std::string &key, int value) {
     head = tail = node;
   } else {
     tail->next = node;
-    node->prev = node;
+    node->prev = tail;
     tail = tail->next;
   }
 }
@@ -38,23 +38,23 @@ Node *List::find(const std::string &key) const {
 }
 
 void List::remove(Node *node) {
-  if (node == nullptr)
+  if (!node)
     return;
 
   if (node->prev) {
     node->prev->next = node->next;
   } else {
     head = node->next;
-    if (head)
-      head->prev = nullptr;
   }
 
   if (node->next) {
     node->next->prev = node->prev;
   } else {
     tail = node->prev;
-    if (tail)
-      tail->next = nullptr;
+  }
+
+  if (tail) {
+    tail->next = nullptr;
   }
 
   delete node;
