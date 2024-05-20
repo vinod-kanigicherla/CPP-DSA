@@ -1,11 +1,9 @@
 #include "Index.h"
-#include <cstring>
 
 // Index Member Functions
 
 Index::Index() {
   table = new Bucket[capacity];
-  memset(table, 0, sizeof(Bucket) * capacity);
   for (int i = 0; i < capacity; ++i) {
     table[i] = Bucket();
   }
