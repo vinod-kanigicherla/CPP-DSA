@@ -32,6 +32,7 @@ void Counter::inc(const std::string &key, int by) {
     node->value += by;
   } else {
     counter.append(key, by);
+    index.insert(key, counter.tail);
   }
 }
 
@@ -42,17 +43,20 @@ void Counter::dec(const std::string &key, int by) {
     node->value -= by;
   } else {
     counter.append(key, -by); // <= CHECK HERE
+    index.insert(key, counter.tail);
   }
 }
 
 void Counter::del(const std::string &key) {
   Node *node = counter.find(key);
-  if (node != nullptr)
+  if (node != nullptr) {
+    index.remove(key);
     counter.remove(node);
+  }
 }
 
 int Counter::get(const std::string &key) const {
-  Node *node = counter.find(key);
+  Node *node = index.find(key);
   if (node) {
     return node->value;
   }
@@ -66,5 +70,6 @@ void Counter::set(const std::string &key, int count) {
     node->value = count;
   } else {
     counter.append(key, count);
+    index.insert(key, counter.tail);
   }
 }

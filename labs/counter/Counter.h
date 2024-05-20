@@ -1,6 +1,7 @@
 #ifndef COUNTER_H
 #define COUNTER_H
 
+#include "Index.h"
 #include "List.h"
 #include <cstddef>
 #include <string>
@@ -28,6 +29,7 @@ public:
 private:
   // Member Variables
   List counter;
+  Index index;
 
 private:
   // Helper Functions
