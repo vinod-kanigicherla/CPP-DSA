@@ -20,6 +20,7 @@ int Index::hash(const std::string &key) const {
   return hash_value % capacity;
 }
 
+// Linear Probe
 int Index::probe(int idx, const std::string &key) const {
   int start = idx;
   while (table[idx].filled && table[idx].key != key) {
