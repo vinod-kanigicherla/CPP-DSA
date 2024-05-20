@@ -21,11 +21,11 @@ int Index::hash(const std::string &key) const {
 }
 
 int Index::doubleHash(const std::string &key) const {
-  unsigned long hash = 5381;
+  unsigned long hash_value = 5381;
   for (char c : key) {
-    hash = (hash * 33) ^ c;
+    hash_value = ((hash_value << 5) + hash_value) ^ c;
   }
-  return 1 + (hash % (capacity - 1));
+  return 1 + (hash_value % (capacity - 1));
 }
 
 int Index::probe(int idx, const std::string &key) const {

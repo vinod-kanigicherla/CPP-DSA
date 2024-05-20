@@ -15,7 +15,7 @@ struct Bucket {
 
 class Index {
   Bucket *table;
-  int capacity = 997; // Large Prime!
+  int capacity = 100003; // Large Prime!
   int size = 0;
 
   int hash(const std::string &key) const;
