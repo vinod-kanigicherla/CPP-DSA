@@ -2,31 +2,15 @@
 
 // Counter Member Functions
 
-Counter::Counter() {}
+Counter::Counter() : keys_count(0), total_count(0) {}
 Counter::~Counter() {}
 
-size_t Counter::count() const {
-  size_t count = 0;
-  Node *curr = counter.head;
-  while (curr != nullptr) {
-    count++;
-    curr = curr->next;
-  }
-  return count;
-}
+size_t Counter::count() const { return keys_count; }
 
-int Counter::total() const {
-  int total = 0;
-  Node *curr = counter.head;
-  while (curr != nullptr) {
-    total += curr->value;
-    curr = curr->next;
-  }
-  return total;
-}
+int Counter::total() const { return total_count; }
 
 void Counter::inc(const std::string &key, int by) {
-  Node *node = counter.find(key);
+  Node *node = index.find(key);
 
   if (node != nullptr) {
     node->value += by;
@@ -40,7 +24,7 @@ void Counter::inc(const std::string &key, int by) {
 }
 
 void Counter::dec(const std::string &key, int by) {
-  Node *node = counter.find(key);
+  Node *node = index.find(key);
 
   if (node != nullptr) {
     node->value -= by;
@@ -54,12 +38,12 @@ void Counter::dec(const std::string &key, int by) {
 }
 
 void Counter::del(const std::string &key) {
-  Node *node = counter.find(key);
+  Node *node = index.find(key);
   if (node != nullptr) {
     index.remove(key);
-    counter.remove(node);
-    keys_count--;
     total_count -= node->value;
+    keys_count--;
+    counter.remove(node);
   }
 }
 
@@ -72,11 +56,11 @@ int Counter::get(const std::string &key) const {
 }
 
 void Counter::set(const std::string &key, int count) {
-  Node *node = counter.find(key);
+  Node *node = index.find(key);
 
   if (node != nullptr) {
-    node->value = count;
     total_count += count - node->value;
+    node->value = count;
   } else {
     counter.append(key, count);
     index.insert(key, counter.tail);
