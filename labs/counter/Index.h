@@ -19,6 +19,7 @@ class Index {
   int size = 0;
 
   int hash(const std::string &key) const;
+  int doubleHash(const std::string &key) const;
   int probe(int idx, const std::string &key) const;
 
 public:

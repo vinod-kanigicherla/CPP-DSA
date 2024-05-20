@@ -20,11 +20,19 @@ int Index::hash(const std::string &key) const {
   return hash_value % capacity;
 }
 
-// Linear Probe
+int Index::doubleHash(const std::string &key) const {
+  unsigned long hash = 5381;
+  for (char c : key) {
+    hash = (hash * 33) ^ c;
+  }
+  return 1 + (hash % (capacity - 1));
+}
+
 int Index::probe(int idx, const std::string &key) const {
+  int offset = doubleHash(key);
   int start = idx;
   while (table[idx].filled && table[idx].key != key) {
-    idx = (idx + 1) % capacity;
+    idx = (idx + offset) % capacity;
     if (idx == start)
       return -1;
   }
