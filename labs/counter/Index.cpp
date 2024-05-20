@@ -1,4 +1,5 @@
 #include "Index.h"
+#include <cstring>
 
 // Index Member Functions
 
