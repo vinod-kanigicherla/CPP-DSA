@@ -30,9 +30,12 @@ void Counter::inc(const std::string &key, int by) {
 
   if (node != nullptr) {
     node->value += by;
+    total_count += by;
   } else {
     counter.append(key, by);
     index.insert(key, counter.tail);
+    total_count += by;
+    keys_count++;
   }
 }
 
@@ -41,9 +44,12 @@ void Counter::dec(const std::string &key, int by) {
 
   if (node != nullptr) {
     node->value -= by;
+    total_count -= by;
   } else {
     counter.append(key, -by); // <= CHECK HERE
     index.insert(key, counter.tail);
+    keys_count++;
+    total_count -= by;
   }
 }
 
@@ -52,6 +58,8 @@ void Counter::del(const std::string &key) {
   if (node != nullptr) {
     index.remove(key);
     counter.remove(node);
+    keys_count--;
+    total_count -= node->value;
   }
 }
 
@@ -68,8 +76,11 @@ void Counter::set(const std::string &key, int count) {
 
   if (node != nullptr) {
     node->value = count;
+    total_count += count - node->value;
   } else {
     counter.append(key, count);
     index.insert(key, counter.tail);
+    keys_count++;
+    total_count += count;
   }
 }

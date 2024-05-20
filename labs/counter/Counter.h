@@ -30,6 +30,8 @@ private:
   // Member Variables
   List counter;
   Index index;
+  int keys_count;
+  int total_count;
 
 private:
   // Helper Functions
