@@ -4,7 +4,7 @@
 
 Index::Index() {
   table = new Bucket[capacity];
-  std::memset(table, 0, sizeof(Bucket) * capacity);
+  memset(table, 0, sizeof(Bucket) * capacity);
 }
 
 Index::~Index() { delete[] table; }
