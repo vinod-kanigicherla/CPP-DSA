@@ -1,7 +1,7 @@
 #include "WordList.h"
 #include "Heap.h"
-#include "cmath"
 
+#include <cmath>
 #include <map>
 
 bool validWord(const std::string &word) {
