@@ -106,7 +106,7 @@ void Heap::push(const std::string &value, float score) {
   size_t index = mCount - 1;
   while (index > 0) {
     size_t parentIndex = (index - 1) / 2;
-    if (mData[index].score > mData[parentIndex].score) {
+    if (mData[index].score < mData[parentIndex].score) {
       std::swap(mData[parentIndex], mData[index]);
       index = parentIndex;
     } else {
@@ -115,4 +115,9 @@ void Heap::push(const std::string &value, float score) {
   }
 }
 
-const Heap::Entry &Heap::top() const { return mData[0]; }
+const Heap::Entry &Heap::top() const {
+  if (mCount == 0) {
+    throw std::underflow_error("Empty top");
+  }
+  return mData[0];
+}
