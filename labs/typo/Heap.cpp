@@ -65,9 +65,9 @@ Heap::Entry Heap::pushpop(const std::string &value, float score) {
     throw std::underflow_error("Empty heap");
   }
 
-  if (score < mData[0].score) {
-    return {value, score};
-  }
+  // if (score < mData[0].score) {
+  //   return {value, score};
+  // }
 
   Entry top = mData[0];
   mData[0] = {value, score};
