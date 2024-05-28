@@ -95,7 +95,7 @@ Heap::Entry Heap::pushpop(const std::string &value, float score) {
 }
 
 void Heap::push(const std::string &value, float score) {
-  if (mCapacity >= mCount) {
+  if (mCount >= mCapacity) {
     throw std::overflow_error("Filled heap");
   }
 

@@ -3,7 +3,6 @@
 #include "Point.h"
 
 #include <cmath>
-#include <map>
 
 bool validWord(const std::string &word) {
   for (char c : word) {
