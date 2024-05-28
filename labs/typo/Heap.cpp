@@ -73,19 +73,22 @@ Heap::Entry Heap::pushpop(const std::string &value, float score) {
   mData[0] = {value, score};
 
   size_t index = 0;
-  size_t childIndex = 2 * index + 1;
-  while (childIndex < mCount) {
-    size_t rightChild = childIndex + 1;
+  while (true) {
+    size_t left = (2 * index) + 1;
+    size_t right = (2 * index) + 2;
+    size_t min_index = index;
 
-    if (rightChild < mCount &&
-        mData[rightChild].score < mData[childIndex].score) {
-      childIndex = rightChild;
+    if ((left < mCount) && (mData[left].score < mData[min_index].score)) {
+      min_index = left;
     }
 
-    if (mData[childIndex].score < mData[index].score) {
-      std::swap(mData[childIndex], mData[index]);
-      index = childIndex;
-      childIndex = 2 * index + 1;
+    if ((right < mCount) && (mData[right].score < mData[min_index].score)) {
+      min_index = right;
+    }
+
+    if (min_index != index) {
+      std::swap(mData[index], mData[min_index]);
+      index = min_index;
     } else {
       break;
     }
