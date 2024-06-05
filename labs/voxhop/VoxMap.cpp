@@ -66,17 +66,21 @@ bool VoxMap::canStand(Point p) {
 }
 
 int VoxMap::find_z(Point step) {
-  // What about tunnels i.e there would be two possible z values
-  if (is_valid_no_z(step) == false) {
+  if (!is_valid_no_z(step))
     return -1;
-  }
+
   int rem_step = (step.x % 4);
   int voxel_step = (step.y * (width / 4)) + step.x / 4;
-  for (int z = 0; z < height - 1; z++) {
+
+  for (int z = height - 1; z >= 0; z--) {
     if (map[z][voxel_step][rem_step] == 1) {
-      return z + 1;
+      if (z < height - 1 && map[z + 1][voxel_step][rem_step] == 0) {
+        return z + 1;
+      }
+      return z;
     }
   }
+
   return -1;
 }
 
