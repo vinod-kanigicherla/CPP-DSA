@@ -52,7 +52,7 @@ bool VoxMap::canStep(Point curr,
   if (step.z >= curr.z + 2) {
     return false;
   }
-  if (curr.z < height && map[curr.z + 1][voxel_curr][rem_curr] == 1 &&
+  if (curr.z < height - 1 && map[curr.z + 1][voxel_curr][rem_curr] == 1 &&
       step.z >= curr.z + 1) {
     return false;
   }
