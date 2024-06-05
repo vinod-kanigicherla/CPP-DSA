@@ -96,7 +96,7 @@ Route VoxMap::route(Point src, Point dst) {
 
   const Move dirs[4] = {Move::NORTH, Move::SOUTH, Move::EAST, Move::WEST};
   const std::vector<std::tuple<int, int>> disp = {
-      {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+      {0, -1}, {0, 1}, {1, 0}, {-1, 0}};
 
   while (!q.empty()) {
     auto [curr, path] = q.front();
