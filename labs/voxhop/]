@@ -65,7 +65,7 @@ bool VoxMap::canStand(Point p) {
   return !map[p.z][p.y * (width / 4) + p.x / 4][3 - (p.x % 4)];
 }
 
-int VoxMap::find_z(Point step) {
+int VoxMap::find_z(Point step) const {
   if (!is_valid_no_z(step))
     return -1;
 
