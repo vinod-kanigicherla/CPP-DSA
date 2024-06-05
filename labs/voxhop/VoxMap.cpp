@@ -67,7 +67,7 @@ bool VoxMap::canStand(Point p) {
 
 int VoxMap::find_z(Point step) {
   // What about tunnels i.e there would be two possible z values
-  if (is_valid_no_z(step) == false) {
+  if (!is_valid_no_z(step)) {
     return -1;
   }
   int rem_step = (step.x % 4);
@@ -96,7 +96,7 @@ Route VoxMap::route(Point src, Point dst) {
 
   const Move dirs[4] = {Move::NORTH, Move::SOUTH, Move::EAST, Move::WEST};
   const std::vector<std::tuple<int, int>> disp = {
-      {0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+      {0, -1}, {0, 1}, {1, 0}, {-1, 0}};
 
   while (!q.empty()) {
     auto [curr, path] = q.front();
