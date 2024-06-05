@@ -45,33 +45,17 @@ bool VoxMap::equals(Point p1, Point p2) {
 
 bool VoxMap::canStep(Point curr,
                      Point step) { // can you stand on voxel at max height??
-  int rem_step = (step.x % 4);
+  // int rem_step   = (step.x % 4);
   int rem_curr = (curr.x % 4);
-  int voxel_step = (step.y * (width / 4)) + step.x / 4;
+  // int voxel_step = (step.y * (width / 4)) + step.x / 4;
   int voxel_curr = (curr.y * (width / 4)) + curr.x / 4;
-
-  // //next voxel empty and within bounds
-  // if (map[step.x][voxel_step][rem_step])
-  //   return false;
-
-  // //check if voxel is supported by another voxel below
-  // if (step.z > 0 && !map[step.z - 1][voxel_step][rem_step])
-  //   return false;
-
-  if (curr.z == height || curr.z + 1 == height) {
-    return true;
-  }
-
-  if (curr.z + 1 < height && map[curr.z + 1][voxel_step][rem_step] == 1 &&
-      map[curr.z + 2][voxel_step][rem_step] == 1) {
+  if (step.z >= curr.z + 2) {
     return false;
   }
-
-  if (map[curr.z + 1][voxel_step][rem_step] == 1 &&
-      map[curr.z + 1][voxel_curr][rem_curr] == 1) {
+  if (curr.z < height && map[curr.z + 1][voxel_curr][rem_curr] == 1 &&
+      step.z >= curr.z + 1) {
     return false;
   }
-
   return true;
 }
 
