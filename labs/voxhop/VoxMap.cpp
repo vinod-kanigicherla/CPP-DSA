@@ -11,10 +11,10 @@ VoxMap::VoxMap(std::istream &stream) {
   map.resize(height, std::vector<std::bitset<4>>(depth * (width / 4)));
 
   std::string line;
-  std::getline(stream, line); // Consume the remaining part of the first line
+  std::getline(stream, line);
 
   for (int z = 0; z < height; z++) {
-    std::getline(stream, line); // Skip empty line
+    std::getline(stream, line);
     for (int y = 0; y < depth; y++) {
       std::getline(stream, line);
       std::istringstream iss(line);
@@ -66,22 +66,18 @@ bool VoxMap::canStand(Point p) {
 }
 
 int VoxMap::find_z(Point step) {
-  if (!is_valid_no_z(step))
+  // What about tunnels i.e there would be two possible z values
+  if (is_valid_no_z(step) == false) {
     return -1;
-
+  }
   int rem_step = (step.x % 4);
   int voxel_step = (step.y * (width / 4)) + step.x / 4;
-
   for (int z = height - 1; z >= 0; z--) {
     if (map[z][voxel_step][rem_step] == 1) {
-      if (z < height - 1 && map[z + 1][voxel_step][rem_step] == 0) {
-        return z + 1;
-      }
-      return z;
+      return z + 1;
     }
   }
-
-  return -1;
+  return -1; // if there is nothing there (fall in the water)
 }
 
 Route VoxMap::route(Point src, Point dst) {
