@@ -50,7 +50,7 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
   int rem_step = (step.x % 4);
   int voxel_step = (step.y * (width / 4)) + step.x / 4;
 
-  for (int z = height - 1; z >= 0; z--) {
+  for (int z = height - 2; z >= 0; z--) {
     if (map[z][voxel_step][rem_step] == 1) {
       if (step.z >= curr.z + 2) {
         return std::make_tuple(false, z + 1);
