@@ -35,10 +35,6 @@ bool VoxMap::isValid(Point p) {
          p.z < height;
 }
 
-bool VoxMap::is_valid_no_z(Point p) {
-  return p.x >= 0 && p.x < width && p.y >= 0 && p.y < depth;
-}
-
 bool VoxMap::equals(Point p1, Point p2) {
   return (p1.x == p2.x && p1.y == p2.y && p1.z == p2.z);
 }
@@ -50,7 +46,14 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
   int rem_step = (step.x % 4);
   int voxel_step = (step.y * (width / 4)) + step.x / 4;
 
+  if (voxel_curr >= map[0].size() || voxel_step >= map[0].size()) {
+    return std::make_tuple(false, -1);
+  }
+
   for (int z = height - 1; z >= 0; z--) {
+    if (z < 0 || z >= height || voxel_step >= map[z].size()) {
+      continue;
+    }
     if (map[z][voxel_step][rem_step] == 1) {
       if (step.z >= curr.z + 2) {
         return std::make_tuple(false, z + 1);
