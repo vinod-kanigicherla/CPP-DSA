@@ -44,8 +44,8 @@ bool VoxMap::equals(Point p1, Point p2) {
 }
 
 std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
-  int rem_curr = (curr.x % 4);
-  int voxel_curr = (curr.y * (width / 4)) + curr.x / 4;
+  // int rem_curr = (curr.x % 4);
+  // int voxel_curr = (curr.y * (width / 4)) + curr.x / 4;
 
   int rem_step = (step.x % 4);
   int voxel_step = (step.y * (width / 4)) + step.x / 4;
