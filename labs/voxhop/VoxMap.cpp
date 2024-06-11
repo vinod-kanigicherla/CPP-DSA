@@ -76,7 +76,7 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
       }
 
       // Allow flat moves
-      if (found_z == curr.z) {
+      if (found_z <= curr.z) {
         return std::make_tuple(true, found_z);
       }
 
