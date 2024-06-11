@@ -35,6 +35,10 @@ bool VoxMap::isValid(Point p) {
          p.z < height;
 }
 
+bool VoxMap::is_valid_no_z(Point p) {
+  return p.x >= 0 && p.x < width && p.y >= 0 && p.y < depth;
+}
+
 bool VoxMap::equals(Point p1, Point p2) {
   return (p1.x == p2.x && p1.y == p2.y && p1.z == p2.z);
 }
@@ -47,9 +51,6 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
   int voxel_step = (step.y * (width / 4)) + step.x / 4;
 
   for (int z = height - 1; z >= 0; z--) {
-    if (z < 0 || z >= height) {
-      continue;
-    }
     if (map[z][voxel_step][rem_step] == 1) {
       if (step.z >= curr.z + 2) {
         return std::make_tuple(false, z + 1);
@@ -64,21 +65,21 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
   return std::make_tuple(false, -1);
 }
 
-bool VoxMap::canStep(Point curr,
-                     Point step) { // can you stand on voxel at max height??
-  // int rem_step   = (step.x % 4);
-  int rem_curr = (curr.x % 4);
-  // int voxel_step = (step.y * (width / 4)) + step.x / 4;
-  int voxel_curr = (curr.y * (width / 4)) + curr.x / 4;
-  if (step.z >= curr.z + 2) {
-    return false;
-  }
-  if (curr.z < height && map[curr.z + 1][voxel_curr][rem_curr] == 1 &&
-      step.z >= curr.z + 1) {
-    return false;
-  }
-  return true;
-}
+// bool VoxMap::canStep(Point curr,
+//                      Point step) { // can you stand on voxel at max height??
+//   // int rem_step   = (step.x % 4);
+//   int rem_curr = (curr.x % 4);
+//   // int voxel_step = (step.y * (width / 4)) + step.x / 4;
+//   int voxel_curr = (curr.y * (width / 4)) + curr.x / 4;
+//   if (step.z >= curr.z + 2) {
+//     return false;
+//   }
+//   if (curr.z < height && map[curr.z + 1][voxel_curr][rem_curr] == 1 &&
+//       step.z >= curr.z + 1) {
+//     return false;
+//   }
+//   return true;
+// }
 
 bool VoxMap::canStand(Point p) {
   if (!isValid(p))
