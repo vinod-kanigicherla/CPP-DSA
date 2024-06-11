@@ -1,5 +1,5 @@
-#include "VoxMap.h"
 #include "Errors.h"
+#include "VoxMap.h"
 #include <bitset>
 #include <deque>
 #include <sstream>
@@ -21,6 +21,7 @@ VoxMap::VoxMap(std::istream &stream) {
   for (int z = 0; z < height; z++) {
     // Read the blank line separating the tiers
     std::getline(stream, line);
+    std::cout << "Reading tier " << z << std::endl;
 
     for (int y = 0; y < depth; y++) {
       std::getline(stream, line);
@@ -31,6 +32,8 @@ VoxMap::VoxMap(std::istream &stream) {
         iss >> c;
         int value = std::stoi(std::string(1, c), nullptr, 16);
         map[z][y * (width / 4) + x] = std::bitset<4>(value);
+        std::cout << "map[" << z << "][" << y << "][" << x
+                  << "] = " << std::bitset<4>(value) << std::endl;
       }
     }
   }
@@ -59,8 +62,13 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
   int voxel_step = (step.y * (width / 4)) + step.x / 4;
 
   if (voxel_step >= static_cast<int>(map[0].size())) {
+    std::cout << "Invalid step: Out of bounds" << std::endl;
     return std::make_tuple(false, -1);
   }
+
+  std::cout << "Checking move from (" << curr.x << ", " << curr.y << ", "
+            << curr.z << ") to (" << step.x << ", " << step.y << ", " << step.z
+            << ")" << std::endl;
 
   // Check for flat move or jump up
   for (int z = height - 1; z >= 0; z--) {
@@ -69,11 +77,13 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
 
       // Ensure we don't jump too high
       if (found_z > curr.z + 1) {
+        std::cout << "Cannot jump too high to z=" << found_z << std::endl;
         return std::make_tuple(false, found_z);
       }
 
       // Allow flat moves
       if (found_z == curr.z) {
+        std::cout << "Flat move to z=" << found_z << std::endl;
         return std::make_tuple(true, found_z);
       }
 
@@ -97,12 +107,15 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
     if (map[z][voxel_step][rem_step] == 1) {
       // Check if the voxel below the step is empty, indicating water
       if (z == 0 || map[z - 1][voxel_step][rem_step] == 0) {
+        std::cout << "Fall into water at z=" << z << std::endl;
         return std::make_tuple(false, z); // Fell into water
       }
+      std::cout << "Fall down to z=" << z << std::endl;
       return std::make_tuple(true, z);
     }
   }
 
+  std::cout << "Fall into water: No solid ground found" << std::endl;
   return std::make_tuple(false,
                          -1); // Fell into water if no solid ground is found
 }
@@ -168,7 +181,30 @@ Route VoxMap::route(Point src, Point dst) {
     auto [curr, path] = q.front();
     q.pop_front();
 
+    std::cout << "Current point: (" << curr.x << ", " << curr.y << ", "
+              << curr.z << ")" << std::endl;
+    std::cout << "Current path: ";
+    for (auto move : path) {
+      switch (move) {
+      case Move::NORTH:
+        std::cout << "n";
+        break;
+      case Move::SOUTH:
+        std::cout << "s";
+        break;
+      case Move::EAST:
+        std::cout << "e";
+        break;
+      case Move::WEST:
+        std::cout << "w";
+        break;
+      }
+    }
+    std::cout << std::endl;
+
     if (equals(curr, dst)) {
+      std::cout << "Destination reached: (" << dst.x << ", " << dst.y << ", "
+                << dst.z << ")" << std::endl;
       return path;
     }
 
@@ -177,19 +213,27 @@ Route VoxMap::route(Point src, Point dst) {
       Point next = {curr.x + dx, curr.y + dy, curr.z};
 
       if (!is_valid_no_z(next)) {
+        std::cout << "Next point out of bounds: (" << next.x << ", " << next.y
+                  << ", " << next.z << ")" << std::endl;
         continue;
       }
 
       auto [canStep, found_z] = canStepAndFindZ(curr, next);
       next.z = found_z;
 
+      std::cout << "Next point: (" << next.x << ", " << next.y << ", " << next.z
+                << "), canStep: " << canStep << std::endl;
+
       if (!canStep || next.z == -1) {
+        std::cout << "Can't step check" << std::endl;
         continue;
       }
       if (!isValid(next)) {
+        std::cout << "Not valid check" << std::endl;
         continue;
       }
       if (visited[next.x][next.y][next.z]) {
+        std::cout << "Visited check" << std::endl;
         continue;
       }
 
