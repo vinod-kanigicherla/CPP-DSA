@@ -56,16 +56,15 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
 
   for (int z = height - 1; z >= 0; z--) {
     if (map[z][voxel_step][rem_step] == 1) {
-      if (step.z >= curr.z + 2) {
-        return std::make_tuple(false, z + 1);
+      int found_z = z + 1;
+      // Don't jump
+      if (found_z > curr.z + 1) {
+        return std::make_tuple(false, found_z);
       }
-      if (curr.z < height - 1 && map[curr.z + 1][voxel_curr][rem_curr] == 1 &&
-          step.z >= curr.z + 1) {
-        return std::make_tuple(false, z + 1);
-      }
-      if (step.z == z + 1 ||
-          (step.z == z && z > 0 && map[z - 1][voxel_step][rem_step] == 1)) {
-        return std::make_tuple(true, z + 1);
+      // Valid move
+      if (found_z == curr.z || (found_z == curr.z + 1 && curr.z < height - 1 &&
+                                map[curr.z + 1][voxel_curr][rem_curr] == 0)) {
+        return std::make_tuple(true, found_z);
       }
     }
   }
