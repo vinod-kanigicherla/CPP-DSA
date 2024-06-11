@@ -139,6 +139,10 @@ Route VoxMap::route(Point src, Point dst) {
       auto [dx, dy] = disp[i];
       Point next = {curr.x + dx, curr.y + dy, curr.z};
 
+      if (!is_valid_no_z(next)) {
+        continue;
+      }
+
       auto [canStep, found_z] = canStepAndFindZ(curr, next);
 
       if (!canStep || next.z == -1)
