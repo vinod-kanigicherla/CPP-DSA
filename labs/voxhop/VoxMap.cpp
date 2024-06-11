@@ -43,6 +43,28 @@ bool VoxMap::equals(Point p1, Point p2) {
   return (p1.x == p2.x && p1.y == p2.y && p1.z == p2.z);
 }
 
+std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
+  int rem_curr = (curr.x % 4);
+  int voxel_curr = (curr.y * (width / 4)) + curr.x / 4;
+
+  int rem_step = (step.x % 4);
+  int voxel_step = (step.y * (width / 4)) + step.x / 4;
+
+  for (int z = height - 1; z >= 0; z--) {
+    if (map[z][voxel_step][rem_step] == 1) {
+      if (step.z >= curr.z + 2) {
+        return std::make_tuple(false, z + 1);
+      }
+      if (curr.z < height && map[curr.z + 1][voxel_curr][rem_curr] == 1 &&
+          step.z >= curr.z + 1) {
+        return std::make_tuple(false, z + 1);
+      }
+      return std::make_tuple(true, z + 1);
+    }
+  }
+  return std::make_tuple(false, -1);
+}
+
 bool VoxMap::canStep(Point curr,
                      Point step) { // can you stand on voxel at max height??
   // int rem_step   = (step.x % 4);
@@ -52,7 +74,7 @@ bool VoxMap::canStep(Point curr,
   if (step.z >= curr.z + 2) {
     return false;
   }
-  if (curr.z < height - 1 && map[curr.z + 1][voxel_curr][rem_curr] == 1 &&
+  if (curr.z < height && map[curr.z + 1][voxel_curr][rem_curr] == 1 &&
       step.z >= curr.z + 1) {
     return false;
   }
@@ -112,16 +134,13 @@ Route VoxMap::route(Point src, Point dst) {
       auto [dx, dy] = disp[i];
       Point next = {curr.x + dx, curr.y + dy, curr.z};
 
-      int found_z = find_z(next);
-      next.z = found_z;
+      auto [canStep, found_z] = canStepAndFindZ(curr, next);
 
-      if (next.z == -1)
+      if (!canStep || next.z == -1)
         continue;
       if (!isValid(next))
         continue;
       if (visited[next.x][next.y][next.z])
-        continue;
-      if (!canStep(curr, next))
         continue;
 
       Route newPath = path;
