@@ -62,27 +62,19 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
     return std::make_tuple(false, -1);
   }
 
-  // Check for flat move or jump up
-  for (int z = height - 1; z >= 0; z--) {
+  for (int z = curr.z + 1; z >= 0; z--) {
     if (map[z][voxel_step][rem_step] == 1) {
       int found_z = z + 1;
-      // if (found_z >= height) {
-      //   return std::make_tuple(false, found_z);
-      // }
 
-      // Ensure we don't jump too high
       if (found_z > curr.z + 1) {
         return std::make_tuple(false, found_z);
       }
 
-      // Allow flat moves
       if (found_z <= curr.z) {
         return std::make_tuple(true, found_z);
       }
 
-      // Check if we can move up
       if (found_z == curr.z + 1) {
-        // voxel above the current position is empty
         if (curr.z < height - 1 && map[curr.z + 1][voxel_curr][rem_curr] == 0) {
           return std::make_tuple(true, found_z);
         } else {
@@ -92,19 +84,7 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
     }
   }
 
-  // // Handle fall down
-  // for (int z = 0; z < height; z++) {
-  //   if (map[z][voxel_step][rem_step] == 1) {
-  //     // Check if the voxel below the step is empty, indicating water
-  //     if (z == 0 || map[z - 1][voxel_step][rem_step] == 0) {
-  //       return std::make_tuple(false, z); // Fell into water
-  //     }
-  //     return std::make_tuple(true, z);
-  //   }
-  // }
-
-  return std::make_tuple(false,
-                         -1); // Fell into water if no solid ground is found
+  return std::make_tuple(false, -1);
 }
 
 // bool VoxMap::canStep(Point curr,
