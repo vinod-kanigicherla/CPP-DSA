@@ -3,8 +3,9 @@ import random
 import sys
 
 from ..argtype import *
-from ..point   import Point
-from ..voxmap  import VoxMap
+from ..point import Point
+from ..voxmap import VoxMap
+
 
 class DisjointSet:
     def __init__(self, point):
