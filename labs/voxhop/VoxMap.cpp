@@ -8,19 +8,15 @@
 #include <tuple>
 
 VoxMap::VoxMap(std::istream &stream) {
-  // Read dimensions: width, depth, height
   stream >> width >> depth >> height;
 
-  // Resize the map to fit the dimensions
   map.resize(height, std::vector<std::bitset<4>>(depth * (width / 4)));
 
   std::string line;
 
-  // Clear any leftover newline character from the input stream
   std::getline(stream, line);
 
   for (int z = 0; z < height; z++) {
-    // Read the blank line separating the tiers
     std::getline(stream, line);
 
     for (int y = 0; y < depth; y++) {
@@ -92,22 +88,6 @@ std::tuple<bool, int> VoxMap::canStepAndFindZ(Point curr, Point step) {
   return std::make_tuple(false, -1);
 }
 
-// bool VoxMap::canStep(Point curr,
-//                      Point step) { // can you stand on voxel at max height??
-//   // int rem_step   = (step.x % 4);
-//   int rem_curr = (curr.x % 4);
-//   // int voxel_step = (step.y * (width / 4)) + step.x / 4;
-//   int voxel_curr = (curr.y * (width / 4)) + curr.x / 4;
-//   if (step.z >= curr.z + 2) {
-//     return false;
-//   }
-//   if (curr.z < height && map[curr.z + 1][voxel_curr][rem_curr] == 1 &&
-//       step.z >= curr.z + 1) {
-//     return false;
-//   }
-//   return true;
-// }
-
 bool VoxMap::canStand(Point p) {
   if (!isValid(p))
     return false;
@@ -117,7 +97,6 @@ bool VoxMap::canStand(Point p) {
 }
 
 int VoxMap::find_z(Point step) {
-  // What about tunnels i.e there would be two possible z values
   if (!is_valid_no_z(step)) {
     return -1;
   }
@@ -128,7 +107,7 @@ int VoxMap::find_z(Point step) {
       return z + 1;
     }
   }
-  return -1; // if there is nothing there (fall in the water)
+  return -1;
 }
 
 Route VoxMap::route(Point src, Point dst) {
