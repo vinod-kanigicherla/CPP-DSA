@@ -20,7 +20,3 @@
 | May   30th | Data structures and big-O runtimes for DFS and BFS
 | June   4th | Minimum spanning trees; Prim's and Kruskal's algorithms
 | June   6th | Weighted shortest path; Dijkstra's algorithm
-
-[piazza]: https://piazza.com/ucsb/spring2024/cs24
-[class-links]: https://piazza.com/class/lug49t2pdob1ub/post/6
-[gradescope]: https://www.gradescope.com/courses/760173
