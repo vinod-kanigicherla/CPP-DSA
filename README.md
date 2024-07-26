@@ -1,6 +1,5 @@
 | Date       | Topics
 |------------|--------
-| April  2nd | Class intro; the syllabus; Git intro
 | April  4th | More Git; abstract and concrete data structures; sequences and vectors
 | April  9th | Sequences, vectors, and linked lists; runtime; big-O notation
 | April 11th | More sequences; stacks and queues; big-O notation
